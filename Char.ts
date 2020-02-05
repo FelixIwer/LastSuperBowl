@@ -1,5 +1,5 @@
 namespace LastSuperBowl {
-    import ƒ = FudgeCore;
+    import fudge = FudgeCore;
   
     export enum ACTION {
       IDLE = "Idle",
@@ -10,17 +10,17 @@ namespace LastSuperBowl {
       LEFT, RIGHT
     }
   
-    export class Hare extends ƒ.Node {
+    export class Hare extends fudge.Node {
       private static sprites: Sprite[];
-      private static speedMax: ƒ.Vector2 = new ƒ.Vector2(1.5, 5); // units per second
-      private static gravity: ƒ.Vector2 = ƒ.Vector2.Y(-3);
+      private static speedMax: fudge.Vector2 = new fudge.Vector2(1.5, 5); // units per second
+      private static gravity: fudge.Vector2 = fudge.Vector2.Y(-3);
       // private action: ACTION;
-      // private time: ƒ.Time = new ƒ.Time();
-      public speed: ƒ.Vector3 = ƒ.Vector3.ZERO();
+      // private time: fudge.Time = new fudge.Time();
+      public speed: fudge.Vector3 = fudge.Vector3.ZERO();
   
       constructor(_name: string = "Hare") {
         super(_name);
-        this.addComponent(new ƒ.ComponentTransform());
+        this.addComponent(new fudge.ComponentTransform());
   
         for (let sprite of Hare.sprites) {
           let nodeSprite: NodeSprite = new NodeSprite(sprite.name, sprite);
@@ -36,17 +36,17 @@ namespace LastSuperBowl {
         }
   
         this.show(ACTION.IDLE);
-        ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.update);
+        fudge.Loop.addEventListener(fudge.EVENT.LOOP_FRAME, this.update);
       }
   
-      public static generateSprites(_txtImage: ƒ.TextureImage): void {
+      public static generateSprites(_txtImage: fudge.TextureImage): void {
         Hare.sprites = [];
         let sprite: Sprite = new Sprite(ACTION.WALK);
-        sprite.generateByGrid(_txtImage, ƒ.Rectangle.GET(2, 104, 68, 64), 6, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
+        sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(2, 104, 68, 64), 6, fudge.Vector2.ZERO(), 64, fudge.ORIGIN2D.BOTTOMCENTER);
         Hare.sprites.push(sprite);
   
         sprite = new Sprite(ACTION.IDLE);
-        sprite.generateByGrid(_txtImage, ƒ.Rectangle.GET(8, 20, 45, 72), 4, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
+        sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(8, 20, 45, 72), 4, fudge.Vector2.ZERO(), 64, fudge.ORIGIN2D.BOTTOMCENTER);
         Hare.sprites.push(sprite);
       }
   
@@ -67,7 +67,7 @@ namespace LastSuperBowl {
           case ACTION.WALK:
             let direction: number = (_direction == DIRECTION.RIGHT ? 1 : -1);
             this.speed.x = Hare.speedMax.x; // * direction;
-            this.cmpTransform.local.rotation = ƒ.Vector3.Y(90 - 90 * direction);
+            this.cmpTransform.local.rotation = fudge.Vector3.Y(90 - 90 * direction);
             // console.log(direction);
             break;
           case ACTION.JUMP:
@@ -81,12 +81,12 @@ namespace LastSuperBowl {
         this.show(_action);
       }
   
-      private update = (_event: ƒ.Eventƒ): void => {
+      private update = (_event: fudge.Eventƒ): void => {
         this.broadcastEvent(new CustomEvent("showNext"));
   
-        let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
+        let timeFrame: number = fudge.Loop.timeFrameGame / 1000;
         this.speed.y += Hare.gravity.y * timeFrame;
-        let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
+        let distance: fudge.Vector3 = fudge.Vector3.SCALE(this.speed, timeFrame);
         this.cmpTransform.local.translate(distance);
   
         this.checkCollision();
@@ -94,11 +94,11 @@ namespace LastSuperBowl {
   
       private checkCollision(): void {
         for (let floor of level.getChildren()) {
-          let rect: ƒ.Rectangle = (<Floor>floor).getRectWorld();
+          let rect: fudge.Rectangle = (<Floor>floor).getRectWorld();
           //console.log(rect.toString());
           let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
           if (hit) {
-            let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
+            let translation: fudge.Vector3 = this.cmpTransform.local.translation;
             translation.y = rect.y;
             this.cmpTransform.local.translation = translation;
             this.speed.y = 0;

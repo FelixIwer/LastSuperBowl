@@ -1,7 +1,7 @@
 "use strict";
 var LastSuperBowl;
 (function (LastSuperBowl) {
-    var ƒ = FudgeCore;
+    var fudge = FudgeCore;
     let ACTION;
     (function (ACTION) {
         ACTION["IDLE"] = "Idle";
@@ -13,21 +13,21 @@ var LastSuperBowl;
         DIRECTION[DIRECTION["LEFT"] = 0] = "LEFT";
         DIRECTION[DIRECTION["RIGHT"] = 1] = "RIGHT";
     })(DIRECTION = LastSuperBowl.DIRECTION || (LastSuperBowl.DIRECTION = {}));
-    class Hare extends ƒ.Node {
+    class Hare extends fudge.Node {
         constructor(_name = "Hare") {
             super(_name);
             // private action: ACTION;
-            // private time: ƒ.Time = new ƒ.Time();
-            this.speed = ƒ.Vector3.ZERO();
+            // private time: fudge.Time = new fudge.Time();
+            this.speed = fudge.Vector3.ZERO();
             this.update = (_event) => {
                 this.broadcastEvent(new CustomEvent("showNext"));
-                let timeFrame = ƒ.Loop.timeFrameGame / 1000;
+                let timeFrame = fudge.Loop.timeFrameGame / 1000;
                 this.speed.y += Hare.gravity.y * timeFrame;
-                let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
+                let distance = fudge.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
                 this.checkCollision();
             };
-            this.addComponent(new ƒ.ComponentTransform());
+            this.addComponent(new fudge.ComponentTransform());
             for (let sprite of Hare.sprites) {
                 let nodeSprite = new LastSuperBowl.NodeSprite(sprite.name, sprite);
                 nodeSprite.activate(false);
@@ -35,15 +35,15 @@ var LastSuperBowl;
                 this.appendChild(nodeSprite);
             }
             this.show(ACTION.IDLE);
-            ƒ.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
+            fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
         }
         static generateSprites(_txtImage) {
             Hare.sprites = [];
             let sprite = new LastSuperBowl.Sprite(ACTION.WALK);
-            sprite.generateByGrid(_txtImage, ƒ.Rectangle.GET(2, 104, 68, 64), 6, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(2, 104, 68, 64), 6, fudge.Vector2.ZERO(), 64, fudge.ORIGIN2D.BOTTOMCENTER);
             Hare.sprites.push(sprite);
             sprite = new LastSuperBowl.Sprite(ACTION.IDLE);
-            sprite.generateByGrid(_txtImage, ƒ.Rectangle.GET(8, 20, 45, 72), 4, ƒ.Vector2.ZERO(), 64, ƒ.ORIGIN2D.BOTTOMCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(8, 20, 45, 72), 4, fudge.Vector2.ZERO(), 64, fudge.ORIGIN2D.BOTTOMCENTER);
             Hare.sprites.push(sprite);
         }
         show(_action) {
@@ -62,7 +62,7 @@ var LastSuperBowl;
                 case ACTION.WALK:
                     let direction = (_direction == DIRECTION.RIGHT ? 1 : -1);
                     this.speed.x = Hare.speedMax.x; // * direction;
-                    this.cmpTransform.local.rotation = ƒ.Vector3.Y(90 - 90 * direction);
+                    this.cmpTransform.local.rotation = fudge.Vector3.Y(90 - 90 * direction);
                     // console.log(direction);
                     break;
                 case ACTION.JUMP:
@@ -90,8 +90,8 @@ var LastSuperBowl;
             }
         }
     }
-    Hare.speedMax = new ƒ.Vector2(1.5, 5); // units per second
-    Hare.gravity = ƒ.Vector2.Y(-3);
+    Hare.speedMax = new fudge.Vector2(1.5, 5); // units per second
+    Hare.gravity = fudge.Vector2.Y(-3);
     LastSuperBowl.Hare = Hare;
 })(LastSuperBowl || (LastSuperBowl = {}));
 //# sourceMappingURL=Char.js.map

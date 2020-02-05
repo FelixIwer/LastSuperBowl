@@ -16,7 +16,7 @@ var LastSuperBowl;
         LastSuperBowl.fudge.RenderManager.initialize(true, false);
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
         hare = new LastSuperBowl.Hare("Hare");
-        LastSuperBowl.level = createLevel();
+        LastSuperBowl.level = LastSuperBowl.Level.createLevel();
         LastSuperBowl.game.appendChild(LastSuperBowl.level);
         LastSuperBowl.game.appendChild(hare);
         let cmpCamera = new LastSuperBowl.fudge.ComponentCamera();
@@ -36,6 +36,7 @@ var LastSuperBowl;
             //"Fadenkreuz"
             crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
             crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
+            //Camera fest auf Helden
             cmpCamera.pivot.translation = new LastSuperBowl.fudge.Vector3(hare.cmpTransform.local.translation.x, cmpCamera.pivot.translation.y, cmpCamera.pivot.translation.z);
         }
     }
@@ -58,20 +59,6 @@ var LastSuperBowl;
             return;
         }
         hare.act(LastSuperBowl.ACTION.IDLE);
-    }
-    //auslagern
-    function createLevel() {
-        let level = new LastSuperBowl.fudge.Node("Level");
-        let floor = new LastSuperBowl.Floor();
-        floor.cmpTransform.local.scaleY(0.5);
-        level.appendChild(floor);
-        floor = new LastSuperBowl.Floor();
-        floor.cmpTransform.local.scaleY(0.5);
-        floor.cmpTransform.local.scaleX(0.5);
-        floor.cmpTransform.local.translateY(0.2);
-        floor.cmpTransform.local.translateX(1.5);
-        level.appendChild(floor);
-        return level;
     }
 })(LastSuperBowl || (LastSuperBowl = {}));
 //# sourceMappingURL=Main.js.map

@@ -9,8 +9,8 @@ namespace LastSuperBowl {
   let keysPressed: KeyPressed = {};
 
   export let game: fudge.Node;
-  export let level: fudge.Node;
   let hare: Hare;
+  export let level: Level;
 
 
   function MainGame(): void {
@@ -25,7 +25,7 @@ namespace LastSuperBowl {
     fudge.RenderManager.initialize(true, false);
     game = new fudge.Node("Game");
     hare = new Hare("Hare");
-    level = createLevel();
+    level = Level.createLevel();
     game.appendChild(level);
     game.appendChild(hare);
 
@@ -53,6 +53,7 @@ namespace LastSuperBowl {
       crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
       crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
 
+      //Camera fest auf Helden
       cmpCamera.pivot.translation = new fudge.Vector3 (hare.cmpTransform.local.translation.x, cmpCamera.pivot.translation.y, cmpCamera.pivot.translation.z);
     }
   }
@@ -78,23 +79,5 @@ namespace LastSuperBowl {
     }
 
     hare.act(ACTION.IDLE);
-  }
-
-
-  //auslagern
-  function createLevel(): fudge.Node {
-    let level: fudge.Node = new fudge.Node("Level");
-    let floor: Floor = new Floor();
-    floor.cmpTransform.local.scaleY(0.5);
-    level.appendChild(floor);
-
-    floor = new Floor();
-    floor.cmpTransform.local.scaleY(0.5);
-    floor.cmpTransform.local.scaleX(0.5);
-    floor.cmpTransform.local.translateY(0.2);
-    floor.cmpTransform.local.translateX(1.5);
-    level.appendChild(floor);
-
-    return level;
   }
 }
