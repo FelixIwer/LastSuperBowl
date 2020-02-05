@@ -16,7 +16,7 @@ var LastSuperBowl;
         LastSuperBowl.fudge.RenderManager.initialize(true, false);
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
         hare = new LastSuperBowl.Hare("Hare");
-        LastSuperBowl.level = LastSuperBowl.Level.createLevel();
+        LastSuperBowl.level = LastSuperBowl.Level.createCollegeLevel();
         LastSuperBowl.game.appendChild(LastSuperBowl.level);
         LastSuperBowl.game.appendChild(hare);
         let cmpCamera = new LastSuperBowl.fudge.ComponentCamera();
@@ -26,6 +26,8 @@ var LastSuperBowl;
         let viewport = new LastSuperBowl.fudge.Viewport();
         viewport.initialize("Viewport", LastSuperBowl.game, cmpCamera, canvas);
         viewport.draw();
+        let button = document.getElementById("startLevel1");
+        button.addEventListener("test", loadLevel);
         document.addEventListener("keydown", handleKeyboard);
         document.addEventListener("keyup", handleKeyboard);
         LastSuperBowl.fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
@@ -59,6 +61,9 @@ var LastSuperBowl;
             return;
         }
         hare.act(LastSuperBowl.ACTION.IDLE);
+    }
+    function loadLevel() {
+        console.log("Test");
     }
 })(LastSuperBowl || (LastSuperBowl = {}));
 //# sourceMappingURL=Main.js.map

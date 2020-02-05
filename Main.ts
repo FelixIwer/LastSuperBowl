@@ -25,7 +25,7 @@ namespace LastSuperBowl {
     fudge.RenderManager.initialize(true, false);
     game = new fudge.Node("Game");
     hare = new Hare("Hare");
-    level = Level.createLevel();
+    level = Level.createCollegeLevel();
     game.appendChild(level);
     game.appendChild(hare);
 
@@ -38,6 +38,8 @@ namespace LastSuperBowl {
     viewport.initialize("Viewport", game, cmpCamera, canvas);
     viewport.draw();
 
+    let button: HTMLButtonElement = document.getElementById("startLevel1");
+    button.addEventListener("test",loadLevel);
     document.addEventListener("keydown", handleKeyboard);
     document.addEventListener("keyup", handleKeyboard);
 
@@ -79,5 +81,9 @@ namespace LastSuperBowl {
     }
 
     hare.act(ACTION.IDLE);
+  }
+
+  function loadLevel(){
+    console.log("Test");
   }
 }
