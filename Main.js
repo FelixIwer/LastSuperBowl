@@ -8,10 +8,11 @@ var LastSuperBowl;
     function MainGame() {
         let canvas = document.querySelector("canvas");
         let crc2 = canvas.getContext("2d");
-        let img = document.querySelector("img");
+        let imgHare = document.querySelector("img");
         let txtHare = new LastSuperBowl.fudge.TextureImage();
-        txtHare.image = img;
+        txtHare.image = imgHare;
         LastSuperBowl.Hare.generateSprites(txtHare);
+        LastSuperBowl.Floor.generateSprites(txtHare);
         LastSuperBowl.fudge.RenderManager.initialize(true, false);
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
         hare = new LastSuperBowl.Hare("Hare");
@@ -32,6 +33,7 @@ var LastSuperBowl;
         function update(_event) {
             processInput();
             viewport.draw();
+            //"Fadenkreuz"
             crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
             crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
             cmpCamera.pivot.translation = new LastSuperBowl.fudge.Vector3(hare.cmpTransform.local.translation.x, cmpCamera.pivot.translation.y, cmpCamera.pivot.translation.z);
@@ -41,13 +43,15 @@ var LastSuperBowl;
         keysPressed[_event.code] = (_event.type == "keydown");
     }
     function processInput() {
-        if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.A]) {
-            hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.LEFT);
-            return;
-        }
-        if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.D]) {
-            hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.RIGHT);
-            return;
+        if (hare.speed.y == 0) {
+            if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.A]) {
+                hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.LEFT);
+                return;
+            }
+            if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.D]) {
+                hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.RIGHT);
+                return;
+            }
         }
         if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.W]) {
             hare.act(LastSuperBowl.ACTION.JUMP);
@@ -63,7 +67,7 @@ var LastSuperBowl;
         level.appendChild(floor);
         floor = new LastSuperBowl.Floor();
         floor.cmpTransform.local.scaleY(0.5);
-        floor.cmpTransform.local.scaleX(2);
+        floor.cmpTransform.local.scaleX(0.5);
         floor.cmpTransform.local.translateY(0.2);
         floor.cmpTransform.local.translateX(1.5);
         level.appendChild(floor);

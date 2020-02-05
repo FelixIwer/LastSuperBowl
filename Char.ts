@@ -51,8 +51,9 @@ namespace LastSuperBowl {
       }
   
       public show(_action: ACTION): void {
-        if (_action == ACTION.JUMP)
+        if (_action == ACTION.JUMP) {
           return;
+        }
         for (let child of this.getChildren())
           child.activate(child.name == _action);
         // this.action = _action;

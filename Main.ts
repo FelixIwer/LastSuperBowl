@@ -16,10 +16,11 @@ namespace LastSuperBowl {
   function MainGame(): void {
     let canvas: HTMLCanvasElement = document.querySelector("canvas");
     let crc2: CanvasRenderingContext2D = canvas.getContext("2d");
-    let img: HTMLImageElement = document.querySelector("img");
+    let imgHare: HTMLImageElement = document.querySelector("img");
     let txtHare: fudge.TextureImage = new fudge.TextureImage();
-    txtHare.image = img;
+    txtHare.image = imgHare;
     Hare.generateSprites(txtHare);
+    Floor.generateSprites(txtHare);
 
     fudge.RenderManager.initialize(true, false);
     game = new fudge.Node("Game");
@@ -48,11 +49,11 @@ namespace LastSuperBowl {
 
       viewport.draw();
 
+      //"Fadenkreuz"
       crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
       crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
 
       cmpCamera.pivot.translation = new fudge.Vector3 (hare.cmpTransform.local.translation.x, cmpCamera.pivot.translation.y, cmpCamera.pivot.translation.z);
-
     }
   }
 
@@ -61,17 +62,19 @@ namespace LastSuperBowl {
   }
 
   function processInput(): void {
-    if (keysPressed[fudge.KEYBOARD_CODE.A]) {
-      hare.act(ACTION.WALK, DIRECTION.LEFT);
-      return;
-    }
-    if (keysPressed[fudge.KEYBOARD_CODE.D]) {
-      hare.act(ACTION.WALK, DIRECTION.RIGHT);
-      return;
+    if (hare.speed.y == 0) {
+      if (keysPressed[fudge.KEYBOARD_CODE.A]) {
+        hare.act(ACTION.WALK, DIRECTION.LEFT);
+        return;
+      }
+      if (keysPressed[fudge.KEYBOARD_CODE.D]) {
+        hare.act(ACTION.WALK, DIRECTION.RIGHT);
+        return;
+      }
     }
     if (keysPressed[fudge.KEYBOARD_CODE.W]) {
       hare.act(ACTION.JUMP);
-      return;      
+      return;  
     }
 
     hare.act(ACTION.IDLE);
@@ -87,7 +90,7 @@ namespace LastSuperBowl {
 
     floor = new Floor();
     floor.cmpTransform.local.scaleY(0.5);
-    floor.cmpTransform.local.scaleX(2);
+    floor.cmpTransform.local.scaleX(0.5);
     floor.cmpTransform.local.translateY(0.2);
     floor.cmpTransform.local.translateX(1.5);
     level.appendChild(floor);
