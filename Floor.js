@@ -9,7 +9,7 @@ var LastSuperBowl;
             nodeSprite.activate(false);
             this.appendChild(nodeSprite);
             this.addComponent(new fudge.ComponentTransform());
-            this.addComponent(new fudge.ComponentMaterial(Floor.material));
+            //this.addComponent(new fudge.ComponentMaterial(Floor.material));
             let cmpMesh = new fudge.ComponentMesh(Floor.mesh);
             //cmpMesh.pivot.translateY(-0.5);
             cmpMesh.pivot = Floor.pivot;

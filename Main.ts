@@ -21,6 +21,7 @@ namespace LastSuperBowl {
     txtHare.image = imgHare;
     Hare.generateSprites(txtHare);
     Floor.generateSprites(txtHare);
+    Item.generateSprites(txtHare);
 
     fudge.RenderManager.initialize(true, false);
     game = new fudge.Node("Game");
@@ -38,8 +39,8 @@ namespace LastSuperBowl {
     viewport.initialize("Viewport", game, cmpCamera, canvas);
     viewport.draw();
 
-    let button: HTMLButtonElement = document.getElementById("startLevel1");
-    button.addEventListener("test",loadLevel);
+    //let button: HTMLButtonElement = document.getElementById("startLevel1");
+    //button.addEventListener("test",loadLevel);
     document.addEventListener("keydown", handleKeyboard);
     document.addEventListener("keyup", handleKeyboard);
 
@@ -79,11 +80,15 @@ namespace LastSuperBowl {
       hare.act(ACTION.JUMP);
       return;  
     }
+    if (keysPressed[fudge.KEYBOARD_CODE.E]) {
+      //ändern wenn mehr Items
+      Inventory.action(ITEM.FOOTBALL);
+    }
 
     hare.act(ACTION.IDLE);
   }
 
-  function loadLevel(){
-    console.log("Test");
-  }
+  //function loadLevel(){
+  //  console.log("Test");
+  //}
 }

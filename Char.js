@@ -77,7 +77,7 @@ var LastSuperBowl;
             this.show(_action);
         }
         checkCollision() {
-            for (let floor of LastSuperBowl.level.getChildren()) {
+            for (let floor of LastSuperBowl.level.getChildrenByName("Floor")) {
                 let rect = floor.getRectWorld();
                 //console.log(rect.toString());
                 let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());

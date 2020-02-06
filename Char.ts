@@ -88,12 +88,12 @@ namespace LastSuperBowl {
         this.speed.y += Hare.gravity.y * timeFrame;
         let distance: fudge.Vector3 = fudge.Vector3.SCALE(this.speed, timeFrame);
         this.cmpTransform.local.translate(distance);
-  
+        
         this.checkCollision();
       }
-  
+
       private checkCollision(): void {
-        for (let floor of level.getChildren()) {
+        for (let floor of level.getChildrenByName("Floor")) {
           let rect: fudge.Rectangle = (<Floor>floor).getRectWorld();
           //console.log(rect.toString());
           let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());

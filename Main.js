@@ -13,6 +13,7 @@ var LastSuperBowl;
         txtHare.image = imgHare;
         LastSuperBowl.Hare.generateSprites(txtHare);
         LastSuperBowl.Floor.generateSprites(txtHare);
+        LastSuperBowl.Item.generateSprites(txtHare);
         LastSuperBowl.fudge.RenderManager.initialize(true, false);
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
         hare = new LastSuperBowl.Hare("Hare");
@@ -26,8 +27,8 @@ var LastSuperBowl;
         let viewport = new LastSuperBowl.fudge.Viewport();
         viewport.initialize("Viewport", LastSuperBowl.game, cmpCamera, canvas);
         viewport.draw();
-        let button = document.getElementById("startLevel1");
-        button.addEventListener("test", loadLevel);
+        //let button: HTMLButtonElement = document.getElementById("startLevel1");
+        //button.addEventListener("test",loadLevel);
         document.addEventListener("keydown", handleKeyboard);
         document.addEventListener("keyup", handleKeyboard);
         LastSuperBowl.fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
@@ -60,10 +61,14 @@ var LastSuperBowl;
             hare.act(LastSuperBowl.ACTION.JUMP);
             return;
         }
+        if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.E]) {
+            //ändern wenn mehr Items
+            LastSuperBowl.Inventory.action(LastSuperBowl.ITEM.FOOTBALL);
+        }
         hare.act(LastSuperBowl.ACTION.IDLE);
     }
-    function loadLevel() {
-        console.log("Test");
-    }
+    //function loadLevel(){
+    //  console.log("Test");
+    //}
 })(LastSuperBowl || (LastSuperBowl = {}));
 //# sourceMappingURL=Main.js.map
