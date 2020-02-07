@@ -3,7 +3,7 @@ var LastSuperBowl;
 (function (LastSuperBowl) {
     var fudge = FudgeCore;
     class Floor extends fudge.Node {
-        constructor() {
+        constructor(_distance, _translateY, _item) {
             super("Floor");
             let nodeSprite = new LastSuperBowl.NodeSprite("FloorSprite", Floor.sprites[0]);
             nodeSprite.activate(false);
@@ -11,10 +11,20 @@ var LastSuperBowl;
             this.addComponent(new fudge.ComponentTransform());
             //this.addComponent(new fudge.ComponentMaterial(Floor.material));
             let cmpMesh = new fudge.ComponentMesh(Floor.mesh);
-            //cmpMesh.pivot.translateY(-0.5);
             cmpMesh.pivot = Floor.pivot;
             this.addComponent(cmpMesh);
             this.show();
+            this.cmpTransform.local.scaleX(0.5);
+            this.cmpTransform.local.scaleY(0.5);
+            this.cmpTransform.local.translateX(_distance);
+            if (_translateY) {
+                this.cmpTransform.local.translateY(_translateY);
+            }
+            if (_item) {
+                let item = new LastSuperBowl.Item(_item);
+                this.item = item;
+                this.appendChild(this.item);
+            }
         }
         static generateSprites(_txtImage) {
             Floor.sprites = [];

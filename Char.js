@@ -16,8 +16,6 @@ var LastSuperBowl;
     class Hare extends fudge.Node {
         constructor(_name = "Hare") {
             super(_name);
-            // private action: ACTION;
-            // private time: fudge.Time = new fudge.Time();
             this.speed = fudge.Vector3.ZERO();
             this.update = (_event) => {
                 this.broadcastEvent(new CustomEvent("showNext"));
@@ -25,7 +23,9 @@ var LastSuperBowl;
                 this.speed.y += Hare.gravity.y * timeFrame;
                 let distance = fudge.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
-                this.checkCollision();
+                this.checkCollision(LastSuperBowl.level);
+                this.checkCollision(LastSuperBowl.floorHigh);
+                this.hitbox.checkCollision();
             };
             this.addComponent(new fudge.ComponentTransform());
             for (let sprite of Hare.sprites) {
@@ -34,6 +34,8 @@ var LastSuperBowl;
                 nodeSprite.addEventListener("showNext", (_event) => { _event.currentTarget.showFrameNext(); }, true);
                 this.appendChild(nodeSprite);
             }
+            this.hitbox = this.createHitbox();
+            this.appendChild(this.hitbox);
             this.show(ACTION.IDLE);
             fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
         }
@@ -45,6 +47,14 @@ var LastSuperBowl;
             sprite = new LastSuperBowl.Sprite(ACTION.IDLE);
             sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(8, 20, 45, 72), 4, fudge.Vector2.ZERO(), 64, fudge.ORIGIN2D.BOTTOMCENTER);
             Hare.sprites.push(sprite);
+        }
+        createHitbox() {
+            let hitbox = new LastSuperBowl.Hitbox("PlayerHitbox");
+            hitbox.cmpTransform.local.translateY(0.6);
+            hitbox.cmpTransform.local.scaleX(0.2);
+            hitbox.cmpTransform.local.scaleY(0.5);
+            this.hitbox = hitbox;
+            return hitbox;
         }
         show(_action) {
             if (_action == ACTION.JUMP) {
@@ -76,10 +86,9 @@ var LastSuperBowl;
             }
             this.show(_action);
         }
-        checkCollision() {
-            for (let floor of LastSuperBowl.level.getChildrenByName("Floor")) {
+        checkCollision(_checkCollision) {
+            for (let floor of _checkCollision.getChildren()) {
                 let rect = floor.getRectWorld();
-                //console.log(rect.toString());
                 let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
                 if (hit) {
                     let translation = this.cmpTransform.local.translation;
@@ -90,7 +99,7 @@ var LastSuperBowl;
             }
         }
     }
-    Hare.speedMax = new fudge.Vector2(1.5, 5); // units per second
+    Hare.speedMax = new fudge.Vector2(1.5, 5);
     Hare.gravity = fudge.Vector2.Y(-3);
     LastSuperBowl.Hare = Hare;
 })(LastSuperBowl || (LastSuperBowl = {}));

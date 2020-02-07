@@ -7,8 +7,9 @@ namespace LastSuperBowl {
     private static material: fudge.Material = new fudge.Material("Floor", fudge.ShaderUniColor, new fudge.CoatColored(fudge.Color.CSS("red", 0.5)));
     private static readonly pivot: fudge.Matrix4x4 = fudge.Matrix4x4.TRANSLATION(fudge.Vector3.Y(-0.5));
     private static sprites: Sprite[];
+    public item: Item;
 
-    public constructor() {
+    public constructor(_distance: number, _translateY?: number, _item?: ITEM) {
       super("Floor");
       let nodeSprite: NodeSprite = new NodeSprite("FloorSprite", Floor.sprites[0]);
       nodeSprite.activate(false);
@@ -17,10 +18,23 @@ namespace LastSuperBowl {
       this.addComponent(new fudge.ComponentTransform());
       //this.addComponent(new fudge.ComponentMaterial(Floor.material));
       let cmpMesh: fudge.ComponentMesh = new fudge.ComponentMesh(Floor.mesh);
-      //cmpMesh.pivot.translateY(-0.5);
       cmpMesh.pivot = Floor.pivot;
       this.addComponent(cmpMesh);
       this.show();
+
+      this.cmpTransform.local.scaleX(0.5);
+      this.cmpTransform.local.scaleY(0.5);
+      this.cmpTransform.local.translateX(_distance);
+      
+      if (_translateY) {
+        this.cmpTransform.local.translateY(_translateY);
+      }
+
+      if (_item) {
+        let item: Item = new Item(_item);
+        this.item = item;
+        this.appendChild(this.item);
+      }
     }
 
     public static generateSprites(_txtImage: fudge.TextureImage): void {

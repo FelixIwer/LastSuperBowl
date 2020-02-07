@@ -16,19 +16,24 @@ var LastSuperBowl;
         LastSuperBowl.Item.generateSprites(txtHare);
         LastSuperBowl.fudge.RenderManager.initialize(true, false);
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
+        // game.addComponent(new fudge.ComponentTransform());
+        // game.cmpTransform.local.translateY(-1);
         hare = new LastSuperBowl.Hare("Hare");
-        LastSuperBowl.level = LastSuperBowl.Level.createCollegeLevel();
-        LastSuperBowl.game.appendChild(LastSuperBowl.level);
+        LastSuperBowl.level = new LastSuperBowl.Level();
+        LastSuperBowl.floorHigh = new LastSuperBowl.FloorHigh();
         LastSuperBowl.game.appendChild(hare);
+        LastSuperBowl.game.appendChild(LastSuperBowl.level);
+        LastSuperBowl.game.appendChild(LastSuperBowl.floorHigh);
+        //Camera Setup
         let cmpCamera = new LastSuperBowl.fudge.ComponentCamera();
         cmpCamera.pivot.translateZ(5);
         cmpCamera.pivot.lookAt(LastSuperBowl.fudge.Vector3.ZERO());
         cmpCamera.backgroundColor = LastSuperBowl.fudge.Color.CSS("aliceblue");
+        //Viewport Setup
         let viewport = new LastSuperBowl.fudge.Viewport();
         viewport.initialize("Viewport", LastSuperBowl.game, cmpCamera, canvas);
         viewport.draw();
-        //let button: HTMLButtonElement = document.getElementById("startLevel1");
-        //button.addEventListener("test",loadLevel);
+        //KeyEvents
         document.addEventListener("keydown", handleKeyboard);
         document.addEventListener("keyup", handleKeyboard);
         LastSuperBowl.fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
@@ -67,8 +72,5 @@ var LastSuperBowl;
         }
         hare.act(LastSuperBowl.ACTION.IDLE);
     }
-    //function loadLevel(){
-    //  console.log("Test");
-    //}
 })(LastSuperBowl || (LastSuperBowl = {}));
 //# sourceMappingURL=Main.js.map

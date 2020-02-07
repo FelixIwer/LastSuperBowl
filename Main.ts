@@ -11,6 +11,7 @@ namespace LastSuperBowl {
   export let game: fudge.Node;
   let hare: Hare;
   export let level: Level;
+  export let floorHigh: FloorHigh;
 
 
   function MainGame(): void {
@@ -25,22 +26,29 @@ namespace LastSuperBowl {
 
     fudge.RenderManager.initialize(true, false);
     game = new fudge.Node("Game");
-    hare = new Hare("Hare");
-    level = Level.createCollegeLevel();
-    game.appendChild(level);
-    game.appendChild(hare);
+    // game.addComponent(new fudge.ComponentTransform());
+    // game.cmpTransform.local.translateY(-1);
 
+    hare = new Hare("Hare");
+    level = new Level();
+    floorHigh = new FloorHigh();
+    
+    game.appendChild(hare);
+    game.appendChild(level);
+    game.appendChild(floorHigh);
+
+    //Camera Setup
     let cmpCamera: fudge.ComponentCamera = new fudge.ComponentCamera();
     cmpCamera.pivot.translateZ(5);
     cmpCamera.pivot.lookAt(fudge.Vector3.ZERO());
     cmpCamera.backgroundColor = fudge.Color.CSS("aliceblue");
 
+    //Viewport Setup
     let viewport: fudge.Viewport = new fudge.Viewport();
     viewport.initialize("Viewport", game, cmpCamera, canvas);
     viewport.draw();
 
-    //let button: HTMLButtonElement = document.getElementById("startLevel1");
-    //button.addEventListener("test",loadLevel);
+    //KeyEvents
     document.addEventListener("keydown", handleKeyboard);
     document.addEventListener("keyup", handleKeyboard);
 
@@ -87,8 +95,4 @@ namespace LastSuperBowl {
 
     hare.act(ACTION.IDLE);
   }
-
-  //function loadLevel(){
-  //  console.log("Test");
-  //}
 }

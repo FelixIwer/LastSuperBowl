@@ -12,11 +12,10 @@ namespace LastSuperBowl {
   
     export class Hare extends fudge.Node {
       private static sprites: Sprite[];
-      private static speedMax: fudge.Vector2 = new fudge.Vector2(1.5, 5); // units per second
+      private static speedMax: fudge.Vector2 = new fudge.Vector2(1.5, 5);
       private static gravity: fudge.Vector2 = fudge.Vector2.Y(-3);
-      // private action: ACTION;
-      // private time: fudge.Time = new fudge.Time();
       public speed: fudge.Vector3 = fudge.Vector3.ZERO();
+      public hitbox: Hitbox;
   
       constructor(_name: string = "Hare") {
         super(_name);
@@ -34,8 +33,11 @@ namespace LastSuperBowl {
   
           this.appendChild(nodeSprite);
         }
-  
+        this.hitbox = this.createHitbox();
+        this.appendChild(this.hitbox);
         this.show(ACTION.IDLE);
+
+
         fudge.Loop.addEventListener(fudge.EVENT.LOOP_FRAME, this.update);
       }
   
@@ -50,6 +52,16 @@ namespace LastSuperBowl {
         Hare.sprites.push(sprite);
       }
   
+      public createHitbox(): Hitbox {
+
+        let hitbox: Hitbox = new Hitbox("PlayerHitbox");
+        hitbox.cmpTransform.local.translateY(0.6);
+        hitbox.cmpTransform.local.scaleX(0.2);
+        hitbox.cmpTransform.local.scaleY(0.5);
+        this.hitbox = hitbox;
+        return hitbox;
+      }
+
       public show(_action: ACTION): void {
         if (_action == ACTION.JUMP) {
           return;
@@ -89,13 +101,14 @@ namespace LastSuperBowl {
         let distance: fudge.Vector3 = fudge.Vector3.SCALE(this.speed, timeFrame);
         this.cmpTransform.local.translate(distance);
         
-        this.checkCollision();
+        this.checkCollision(level);
+        this.checkCollision(floorHigh);
+        this.hitbox.checkCollision();
       }
 
-      private checkCollision(): void {
-        for (let floor of level.getChildrenByName("Floor")) {
+      private checkCollision(_checkCollision: fudge.Node): void {
+        for (let floor of _checkCollision.getChildren()) {
           let rect: fudge.Rectangle = (<Floor>floor).getRectWorld();
-          //console.log(rect.toString());
           let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
           if (hit) {
             let translation: fudge.Vector3 = this.cmpTransform.local.translation;
