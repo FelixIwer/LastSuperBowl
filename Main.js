@@ -4,7 +4,6 @@ var LastSuperBowl;
     LastSuperBowl.fudge = FudgeCore;
     window.addEventListener("load", MainGame);
     let keysPressed = {};
-    let hare;
     function MainGame() {
         let canvas = document.querySelector("canvas");
         let crc2 = canvas.getContext("2d");
@@ -18,15 +17,17 @@ var LastSuperBowl;
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
         // game.addComponent(new fudge.ComponentTransform());
         // game.cmpTransform.local.translateY(-1);
-        hare = new LastSuperBowl.Hare("Hare");
+        LastSuperBowl.hare = new LastSuperBowl.Hare("Hare");
         LastSuperBowl.level = new LastSuperBowl.Level();
         LastSuperBowl.floorHigh = new LastSuperBowl.FloorHigh();
-        LastSuperBowl.game.appendChild(hare);
+        LastSuperBowl.game.appendChild(LastSuperBowl.hare);
         LastSuperBowl.game.appendChild(LastSuperBowl.level);
         LastSuperBowl.game.appendChild(LastSuperBowl.floorHigh);
+        //Hitbox für Char anzeigen
+        //game.appendChild(hare.createHitbox());
         //Camera Setup
         let cmpCamera = new LastSuperBowl.fudge.ComponentCamera();
-        cmpCamera.pivot.translateZ(5);
+        cmpCamera.pivot.translateZ(10);
         cmpCamera.pivot.lookAt(LastSuperBowl.fudge.Vector3.ZERO());
         cmpCamera.backgroundColor = LastSuperBowl.fudge.Color.CSS("aliceblue");
         //Viewport Setup
@@ -45,32 +46,30 @@ var LastSuperBowl;
             crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
             crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
             //Camera fest auf Helden
-            cmpCamera.pivot.translation = new LastSuperBowl.fudge.Vector3(hare.cmpTransform.local.translation.x, cmpCamera.pivot.translation.y, cmpCamera.pivot.translation.z);
+            cmpCamera.pivot.translation = new LastSuperBowl.fudge.Vector3(LastSuperBowl.hare.cmpTransform.local.translation.x, cmpCamera.pivot.translation.y, cmpCamera.pivot.translation.z);
         }
     }
     function handleKeyboard(_event) {
         keysPressed[_event.code] = (_event.type == "keydown");
     }
     function processInput() {
-        if (hare.speed.y == 0) {
-            if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.A]) {
-                hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.LEFT);
-                return;
-            }
-            if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.D]) {
-                hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.RIGHT);
-                return;
-            }
+        if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.A]) {
+            LastSuperBowl.hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.LEFT);
+            return;
+        }
+        if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.D]) {
+            LastSuperBowl.hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.RIGHT);
+            return;
         }
         if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.W]) {
-            hare.act(LastSuperBowl.ACTION.JUMP);
+            LastSuperBowl.hare.act(LastSuperBowl.ACTION.JUMP);
             return;
         }
         if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.E]) {
-            //ändern wenn mehr Items
-            LastSuperBowl.Inventory.action(LastSuperBowl.ITEM.FOOTBALL);
+            LastSuperBowl.hare.act(LastSuperBowl.ACTION.SHOOT, LastSuperBowl.DIRECTION.RIGHT, LastSuperBowl.hare.item);
+            return;
         }
-        hare.act(LastSuperBowl.ACTION.IDLE);
+        LastSuperBowl.hare.act(LastSuperBowl.ACTION.IDLE);
     }
 })(LastSuperBowl || (LastSuperBowl = {}));
 //# sourceMappingURL=Main.js.map

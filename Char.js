@@ -7,6 +7,7 @@ var LastSuperBowl;
         ACTION["IDLE"] = "Idle";
         ACTION["WALK"] = "Walk";
         ACTION["JUMP"] = "Jump";
+        ACTION["SHOOT"] = "Shoot";
     })(ACTION = LastSuperBowl.ACTION || (LastSuperBowl.ACTION = {}));
     let DIRECTION;
     (function (DIRECTION) {
@@ -17,6 +18,7 @@ var LastSuperBowl;
         constructor(_name = "Hare") {
             super(_name);
             this.speed = fudge.Vector3.ZERO();
+            this.item = LastSuperBowl.ITEM.NONE;
             this.update = (_event) => {
                 this.broadcastEvent(new CustomEvent("showNext"));
                 let timeFrame = fudge.Loop.timeFrameGame / 1000;
@@ -50,30 +52,31 @@ var LastSuperBowl;
         }
         createHitbox() {
             let hitbox = new LastSuperBowl.Hitbox("PlayerHitbox");
-            hitbox.cmpTransform.local.translateY(0.6);
-            hitbox.cmpTransform.local.scaleX(0.2);
-            hitbox.cmpTransform.local.scaleY(0.5);
+            //Hitbox Player verändern
+            hitbox.cmpTransform.local.translateY(1.1);
+            hitbox.cmpTransform.local.scaleX(0.75);
+            hitbox.cmpTransform.local.scaleY(1.1);
             this.hitbox = hitbox;
             return hitbox;
         }
         show(_action) {
             if (_action == ACTION.JUMP) {
+                console.log("W");
                 return;
             }
             for (let child of this.getChildren())
                 child.activate(child.name == _action);
             // this.action = _action;
         }
-        act(_action, _direction) {
+        act(_action, _direction, _item) {
             switch (_action) {
                 case ACTION.IDLE:
                     this.speed.x = 0;
                     break;
                 case ACTION.WALK:
                     let direction = (_direction == DIRECTION.RIGHT ? 1 : -1);
-                    this.speed.x = Hare.speedMax.x; // * direction;
+                    this.speed.x = Hare.speedMax.x;
                     this.cmpTransform.local.rotation = fudge.Vector3.Y(90 - 90 * direction);
-                    // console.log(direction);
                     break;
                 case ACTION.JUMP:
                     //Abfrage für einfachen Jump
@@ -81,8 +84,17 @@ var LastSuperBowl;
                         break;
                     }
                     else {
-                        this.speed.y = 2;
+                        this.speed.y = 3.2;
                     }
+                    break;
+                case ACTION.SHOOT:
+                    console.log("SHOOOOOOOT");
+                    let item = new LastSuperBowl.Item(_item);
+                    LastSuperBowl.game.appendChild(item);
+                    item.cmpTransform.local.translation = LastSuperBowl.hare.cmpTransform.local.translation;
+                    item.cmpTransform.local.translateY(0.22);
+                    LastSuperBowl.hare.item = LastSuperBowl.ITEM.NONE;
+                    break;
             }
             this.show(_action);
         }

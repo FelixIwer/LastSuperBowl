@@ -9,7 +9,7 @@ namespace LastSuperBowl {
   let keysPressed: KeyPressed = {};
 
   export let game: fudge.Node;
-  let hare: Hare;
+  export let hare: Hare;
   export let level: Level;
   export let floorHigh: FloorHigh;
 
@@ -37,9 +37,12 @@ namespace LastSuperBowl {
     game.appendChild(level);
     game.appendChild(floorHigh);
 
+    //Hitbox für Char anzeigen
+    //game.appendChild(hare.createHitbox());
+
     //Camera Setup
     let cmpCamera: fudge.ComponentCamera = new fudge.ComponentCamera();
-    cmpCamera.pivot.translateZ(5);
+    cmpCamera.pivot.translateZ(10);
     cmpCamera.pivot.lookAt(fudge.Vector3.ZERO());
     cmpCamera.backgroundColor = fudge.Color.CSS("aliceblue");
 
@@ -74,23 +77,21 @@ namespace LastSuperBowl {
   }
 
   function processInput(): void {
-    if (hare.speed.y == 0) {
-      if (keysPressed[fudge.KEYBOARD_CODE.A]) {
-        hare.act(ACTION.WALK, DIRECTION.LEFT);
-        return;
-      }
-      if (keysPressed[fudge.KEYBOARD_CODE.D]) {
-        hare.act(ACTION.WALK, DIRECTION.RIGHT);
-        return;
-      }
+    if (keysPressed[fudge.KEYBOARD_CODE.A]) {
+      hare.act(ACTION.WALK, DIRECTION.LEFT);
+      return;
+    }
+    if (keysPressed[fudge.KEYBOARD_CODE.D]) {
+      hare.act(ACTION.WALK, DIRECTION.RIGHT);
+      return;
     }
     if (keysPressed[fudge.KEYBOARD_CODE.W]) {
       hare.act(ACTION.JUMP);
       return;  
     }
     if (keysPressed[fudge.KEYBOARD_CODE.E]) {
-      //ändern wenn mehr Items
-      Inventory.action(ITEM.FOOTBALL);
+      hare.act(ACTION.SHOOT, DIRECTION.RIGHT, hare.item);
+      return;
     }
 
     hare.act(ACTION.IDLE);

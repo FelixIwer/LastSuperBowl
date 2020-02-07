@@ -35,28 +35,15 @@ var LastSuperBowl;
                     if (child.name == "Item") { //collision Item
                         let hitbox;
                         hitbox = child.hitbox;
-                        let hit = false;
-                        let rectOfThis = this.getRectWorld();
-                        let rectOfThat = hitbox.getRectWorld();
-                        let expansionRight = new fudge.Vector2(rectOfThat.size.x);
-                        let expansionDown = new fudge.Vector2(0, rectOfThat.size.y);
-                        let topRight = fudge.Vector2.SUM(rectOfThat.position, expansionRight);
-                        let bottomLeft = fudge.Vector2.SUM(rectOfThat.position, expansionDown);
-                        let bottomRight = fudge.Vector2.SUM(rectOfThat.position, expansionDown, expansionRight);
-                        if (rectOfThis.isInside(rectOfThat.position)) {
-                            hit = true;
-                        }
-                        else if (rectOfThis.isInside(topRight)) {
-                            hit = true;
-                        }
-                        else if (rectOfThis.isInside(bottomLeft)) {
-                            hit = true;
-                        }
-                        else if (rectOfThis.isInside(bottomRight)) {
-                            hit = true;
-                        }
-                        if (hit) {
-                            fudge.Debug.log(hitbox.name);
+                        if (this.hitDetected(hitbox)) {
+                            if (LastSuperBowl.hare.item != child.type) {
+                                LastSuperBowl.hare.item = child.type;
+                                child.cmpTransform.local.translateY(10);
+                            }
+                            if (LastSuperBowl.hare.item == LastSuperBowl.ITEM.NONE) {
+                                LastSuperBowl.hare.item = child.type;
+                                child.cmpTransform.local.translateY(10);
+                            }
                         }
                     }
                     else {
@@ -64,6 +51,29 @@ var LastSuperBowl;
                     }
                 }
             }
+        }
+        hitDetected(hitbox) {
+            let hit = false;
+            let rectOfThis = this.getRectWorld();
+            let rectOfThat = hitbox.getRectWorld();
+            let expansionRight = new fudge.Vector2(rectOfThat.size.x);
+            let expansionDown = new fudge.Vector2(0, rectOfThat.size.y);
+            let topRight = fudge.Vector2.SUM(rectOfThat.position, expansionRight);
+            let bottomLeft = fudge.Vector2.SUM(rectOfThat.position, expansionDown);
+            let bottomRight = fudge.Vector2.SUM(rectOfThat.position, expansionDown, expansionRight);
+            if (rectOfThis.isInside(rectOfThat.position)) {
+                hit = true;
+            }
+            else if (rectOfThis.isInside(topRight)) {
+                hit = true;
+            }
+            else if (rectOfThis.isInside(bottomLeft)) {
+                hit = true;
+            }
+            else if (rectOfThis.isInside(bottomRight)) {
+                hit = true;
+            }
+            return hit;
         }
     }
     Hitbox.mesh = new fudge.MeshSprite();

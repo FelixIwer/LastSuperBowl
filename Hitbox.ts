@@ -45,33 +45,44 @@ namespace LastSuperBowl {
                 if (child.name == "Item") {         //collision Item
                   let hitbox: Hitbox;
                   hitbox = (<Item>child).hitbox;
-                  let hit: boolean = false;
-                  let rectOfThis: fudge.Rectangle = (<Hitbox>this).getRectWorld();
-                  let rectOfThat: fudge.Rectangle = hitbox.getRectWorld();
-                  let expansionRight: fudge.Vector2 = new fudge.Vector2(rectOfThat.size.x);
-                  let expansionDown: fudge.Vector2 = new fudge.Vector2(0, rectOfThat.size.y);
-                  let topRight: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionRight);
-                  let bottomLeft: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionDown);
-                  let bottomRight: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionDown, expansionRight);
-      
-                  if (rectOfThis.isInside(rectOfThat.position)) {
-                    hit = true;
-                  } else if (rectOfThis.isInside(topRight)) {
-                    hit = true;
-                  } else if (rectOfThis.isInside(bottomLeft)) {
-                    hit = true;
-                  } else if (rectOfThis.isInside(bottomRight)) {
-                    hit = true;
-                  }
-      
-                  if (hit) {
-                    fudge.Debug.log(hitbox.name);
+                  if (this.hitDetected(hitbox)) {
+                    if (hare.item != (<Item>child).type) {
+                      hare.item = (<Item>child).type;
+                      child.cmpTransform.local.translateY(10);
+                    }
+                    if (hare.item == ITEM.NONE) {
+                      hare.item = (<Item>child).type;
+                      child.cmpTransform.local.translateY(10);
+                    }
                   }
                 } else {
                   continue;
                 }
               }
             }
+          }
+
+          private hitDetected(hitbox: Hitbox): boolean {
+            let hit: boolean = false;
+            let rectOfThis: fudge.Rectangle = (<Hitbox>this).getRectWorld();
+            let rectOfThat: fudge.Rectangle = hitbox.getRectWorld();
+            let expansionRight: fudge.Vector2 = new fudge.Vector2(rectOfThat.size.x);
+            let expansionDown: fudge.Vector2 = new fudge.Vector2(0, rectOfThat.size.y);
+            let topRight: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionRight);
+            let bottomLeft: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionDown);
+            let bottomRight: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionDown, expansionRight);
+
+            if (rectOfThis.isInside(rectOfThat.position)) {
+              hit = true;
+            } else if (rectOfThis.isInside(topRight)) {
+              hit = true;
+            } else if (rectOfThis.isInside(bottomLeft)) {
+              hit = true;
+            } else if (rectOfThis.isInside(bottomRight)) {
+              hit = true;
+            }
+
+            return hit;
           }
     }
 }
