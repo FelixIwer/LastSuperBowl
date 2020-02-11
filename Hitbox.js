@@ -38,11 +38,11 @@ var LastSuperBowl;
                         if (this.hitDetected(hitbox)) {
                             if (LastSuperBowl.hare.item != child.type) {
                                 LastSuperBowl.hare.item = child.type;
-                                child.cmpTransform.local.translateY(10);
+                                // child.cmpTransform.local.translateY(4);
                             }
                             if (LastSuperBowl.hare.item == LastSuperBowl.ITEM.NONE) {
                                 LastSuperBowl.hare.item = child.type;
-                                child.cmpTransform.local.translateY(10);
+                                // child.cmpTransform.local.translateY(4);
                             }
                         }
                     }

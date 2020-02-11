@@ -13,6 +13,7 @@ namespace LastSuperBowl {
   export let level: Level;
   export let floorHigh: FloorHigh;
   export let enemy: Enemy;
+  export let score: number = 0;
 
 
   function MainGame(): void {
@@ -35,7 +36,7 @@ namespace LastSuperBowl {
     level = new Level();
     floorHigh = new FloorHigh();
     enemy = new Enemy("Enemy");
-    
+
     game.appendChild(hare);
     game.appendChild(enemy);
     game.appendChild(level);
@@ -51,6 +52,10 @@ namespace LastSuperBowl {
     cmpCamera.pivot.lookAt(fudge.Vector3.ZERO());
     cmpCamera.backgroundColor = fudge.Color.CSS("aliceblue");
 
+    //Musik
+    Sound.init();
+    Sound.playMusic();
+
     //Viewport Setup
     let viewport: fudge.Viewport = new fudge.Viewport();
     viewport.initialize("Viewport", game, cmpCamera, canvas);
@@ -65,7 +70,7 @@ namespace LastSuperBowl {
 
 
     //if alive == false Game restart
-    
+
     function update(_event: fudge.Eventƒ): void {
       processInput();
 
@@ -77,6 +82,13 @@ namespace LastSuperBowl {
 
       //Camera fest auf Helden
       cmpCamera.pivot.translation = new fudge.Vector3 (hare.cmpTransform.local.translation.x, cmpCamera.pivot.translation.y, cmpCamera.pivot.translation.z);
+
+      countScore();
+
+      if (hare.item != "None") {
+        console.log(hare.item);
+        //item.cmpTransform.local.translation = new fudge.Vector3(hare.mtxWorld.translation.x, 3, 0);
+      }
     }
   }
 
@@ -105,5 +117,14 @@ namespace LastSuperBowl {
 
       hare.act(ACTION.IDLE);
     }
+  }
+
+  function countScore(): void {
+    if (hare.mtxWorld.translation.x > score) {
+      score = Math.round(hare.cmpTransform.local.translation.x);
+    }
+    let sString: string = score.toString();
+    document.getElementById("Score").innerHTML = sString;
+    console.log(score);
   }
 }

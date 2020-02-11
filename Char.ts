@@ -95,16 +95,17 @@ namespace LastSuperBowl {
             if (this.speed.y != 0) {
               break;
             } else {
-              this.speed.y = 3.2;
+              this.speed.y = 3.5;
             }
             break;
           case ACTION.SHOOT:
             console.log("SHOOOOOOOT");
-            let item: Item = new Item(_item);
-            game.appendChild(item);
-            item.cmpTransform.local.translation = hare.cmpTransform.local.translation;
-            item.cmpTransform.local.translateY(0.22);
+            // let item: Item = new Item(_item);
+            // game.appendChild(item);
+            // item.cmpTransform.local.translation = hare.cmpTransform.local.translation;
+            // item.cmpTransform.local.translateY(0.22);
             hare.item = ITEM.NONE;
+            console.log(hare.item);
             break;
         }
         this.show(_action);

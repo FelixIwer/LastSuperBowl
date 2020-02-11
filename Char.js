@@ -85,16 +85,17 @@ var LastSuperBowl;
                         break;
                     }
                     else {
-                        this.speed.y = 3.2;
+                        this.speed.y = 3.5;
                     }
                     break;
                 case ACTION.SHOOT:
                     console.log("SHOOOOOOOT");
-                    let item = new LastSuperBowl.Item(_item);
-                    LastSuperBowl.game.appendChild(item);
-                    item.cmpTransform.local.translation = LastSuperBowl.hare.cmpTransform.local.translation;
-                    item.cmpTransform.local.translateY(0.22);
+                    // let item: Item = new Item(_item);
+                    // game.appendChild(item);
+                    // item.cmpTransform.local.translation = hare.cmpTransform.local.translation;
+                    // item.cmpTransform.local.translateY(0.22);
                     LastSuperBowl.hare.item = LastSuperBowl.ITEM.NONE;
+                    console.log(LastSuperBowl.hare.item);
                     break;
             }
             this.show(_action);

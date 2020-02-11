@@ -48,11 +48,11 @@ namespace LastSuperBowl {
                 if (this.hitDetected(hitbox)) {
                   if (hare.item != (<Item>child).type) {
                     hare.item = (<Item>child).type;
-                    child.cmpTransform.local.translateY(10);
+                    // child.cmpTransform.local.translateY(4);
                   }
                   if (hare.item == ITEM.NONE) {
                     hare.item = (<Item>child).type;
-                    child.cmpTransform.local.translateY(10);
+                    // child.cmpTransform.local.translateY(4);
                   }
                 }
               } else {

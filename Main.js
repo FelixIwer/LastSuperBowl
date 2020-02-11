@@ -4,6 +4,7 @@ var LastSuperBowl;
     LastSuperBowl.fudge = FudgeCore;
     window.addEventListener("load", MainGame);
     let keysPressed = {};
+    LastSuperBowl.score = 0;
     function MainGame() {
         let canvas = document.querySelector("canvas");
         let crc2 = canvas.getContext("2d");
@@ -34,6 +35,9 @@ var LastSuperBowl;
         cmpCamera.pivot.translateZ(20);
         cmpCamera.pivot.lookAt(LastSuperBowl.fudge.Vector3.ZERO());
         cmpCamera.backgroundColor = LastSuperBowl.fudge.Color.CSS("aliceblue");
+        //Musik
+        LastSuperBowl.Sound.init();
+        LastSuperBowl.Sound.playMusic();
         //Viewport Setup
         let viewport = new LastSuperBowl.fudge.Viewport();
         viewport.initialize("Viewport", LastSuperBowl.game, cmpCamera, canvas);
@@ -52,6 +56,11 @@ var LastSuperBowl;
             crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
             //Camera fest auf Helden
             cmpCamera.pivot.translation = new LastSuperBowl.fudge.Vector3(LastSuperBowl.hare.cmpTransform.local.translation.x, cmpCamera.pivot.translation.y, cmpCamera.pivot.translation.z);
+            countScore();
+            if (LastSuperBowl.hare.item != "None") {
+                console.log(LastSuperBowl.hare.item);
+                //item.cmpTransform.local.translation = new fudge.Vector3(hare.mtxWorld.translation.x, 3, 0);
+            }
         }
     }
     function handleKeyboard(_event) {
@@ -77,6 +86,14 @@ var LastSuperBowl;
             }
             LastSuperBowl.hare.act(LastSuperBowl.ACTION.IDLE);
         }
+    }
+    function countScore() {
+        if (LastSuperBowl.hare.mtxWorld.translation.x > LastSuperBowl.score) {
+            LastSuperBowl.score = Math.round(LastSuperBowl.hare.cmpTransform.local.translation.x);
+        }
+        let sString = LastSuperBowl.score.toString();
+        document.getElementById("Score").innerHTML = sString;
+        console.log(LastSuperBowl.score);
     }
 })(LastSuperBowl || (LastSuperBowl = {}));
 //# sourceMappingURL=Main.js.map
