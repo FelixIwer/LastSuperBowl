@@ -12,6 +12,7 @@ namespace LastSuperBowl {
   export let hare: Hare;
   export let level: Level;
   export let floorHigh: FloorHigh;
+  export let enemy: Enemy;
 
 
   function MainGame(): void {
@@ -23,6 +24,7 @@ namespace LastSuperBowl {
     Hare.generateSprites(txtHare);
     Floor.generateSprites(txtHare);
     Item.generateSprites(txtHare);
+    Enemy.generateSprites(txtHare);
 
     fudge.RenderManager.initialize(true, false);
     game = new fudge.Node("Game");
@@ -32,17 +34,20 @@ namespace LastSuperBowl {
     hare = new Hare("Hare");
     level = new Level();
     floorHigh = new FloorHigh();
+    enemy = new Enemy("Enemy");
     
     game.appendChild(hare);
+    game.appendChild(enemy);
     game.appendChild(level);
     game.appendChild(floorHigh);
 
     //Hitbox für Char anzeigen
     //game.appendChild(hare.createHitbox());
+    //game.appendChild(enemy.createHitbox());
 
     //Camera Setup
     let cmpCamera: fudge.ComponentCamera = new fudge.ComponentCamera();
-    cmpCamera.pivot.translateZ(10);
+    cmpCamera.pivot.translateZ(20);
     cmpCamera.pivot.lookAt(fudge.Vector3.ZERO());
     cmpCamera.backgroundColor = fudge.Color.CSS("aliceblue");
 
@@ -58,6 +63,9 @@ namespace LastSuperBowl {
     fudge.Loop.addEventListener(fudge.EVENT.LOOP_FRAME, update);
     fudge.Loop.start(fudge.LOOP_MODE.TIME_GAME, 10);
 
+
+    //if alive == false Game restart
+    
     function update(_event: fudge.Eventƒ): void {
       processInput();
 
@@ -77,23 +85,25 @@ namespace LastSuperBowl {
   }
 
   function processInput(): void {
-    if (keysPressed[fudge.KEYBOARD_CODE.A]) {
-      hare.act(ACTION.WALK, DIRECTION.LEFT);
-      return;
-    }
-    if (keysPressed[fudge.KEYBOARD_CODE.D]) {
-      hare.act(ACTION.WALK, DIRECTION.RIGHT);
-      return;
-    }
-    if (keysPressed[fudge.KEYBOARD_CODE.W]) {
-      hare.act(ACTION.JUMP);
-      return;  
-    }
-    if (keysPressed[fudge.KEYBOARD_CODE.E]) {
-      hare.act(ACTION.SHOOT, DIRECTION.RIGHT, hare.item);
-      return;
-    }
+    if (hare.alive == true) {
+      if (keysPressed[fudge.KEYBOARD_CODE.A]) {
+        hare.act(ACTION.WALK, DIRECTION.LEFT);
+        return;
+      }
+      if (keysPressed[fudge.KEYBOARD_CODE.D]) {
+        hare.act(ACTION.WALK, DIRECTION.RIGHT);
+        return;
+      }
+      if (keysPressed[fudge.KEYBOARD_CODE.W]) {
+        hare.act(ACTION.JUMP);
+        return;  
+      }
+      if (keysPressed[fudge.KEYBOARD_CODE.E]) {
+        hare.act(ACTION.SHOOT, DIRECTION.RIGHT, hare.item);
+        return;
+      }
 
-    hare.act(ACTION.IDLE);
+      hare.act(ACTION.IDLE);
+    }
   }
 }

@@ -13,6 +13,7 @@ var LastSuperBowl;
         LastSuperBowl.Hare.generateSprites(txtHare);
         LastSuperBowl.Floor.generateSprites(txtHare);
         LastSuperBowl.Item.generateSprites(txtHare);
+        LastSuperBowl.Enemy.generateSprites(txtHare);
         LastSuperBowl.fudge.RenderManager.initialize(true, false);
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
         // game.addComponent(new fudge.ComponentTransform());
@@ -20,14 +21,17 @@ var LastSuperBowl;
         LastSuperBowl.hare = new LastSuperBowl.Hare("Hare");
         LastSuperBowl.level = new LastSuperBowl.Level();
         LastSuperBowl.floorHigh = new LastSuperBowl.FloorHigh();
+        LastSuperBowl.enemy = new LastSuperBowl.Enemy("Enemy");
         LastSuperBowl.game.appendChild(LastSuperBowl.hare);
+        LastSuperBowl.game.appendChild(LastSuperBowl.enemy);
         LastSuperBowl.game.appendChild(LastSuperBowl.level);
         LastSuperBowl.game.appendChild(LastSuperBowl.floorHigh);
         //Hitbox für Char anzeigen
         //game.appendChild(hare.createHitbox());
+        //game.appendChild(enemy.createHitbox());
         //Camera Setup
         let cmpCamera = new LastSuperBowl.fudge.ComponentCamera();
-        cmpCamera.pivot.translateZ(10);
+        cmpCamera.pivot.translateZ(20);
         cmpCamera.pivot.lookAt(LastSuperBowl.fudge.Vector3.ZERO());
         cmpCamera.backgroundColor = LastSuperBowl.fudge.Color.CSS("aliceblue");
         //Viewport Setup
@@ -39,6 +43,7 @@ var LastSuperBowl;
         document.addEventListener("keyup", handleKeyboard);
         LastSuperBowl.fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         LastSuperBowl.fudge.Loop.start(LastSuperBowl.fudge.LOOP_MODE.TIME_GAME, 10);
+        //if alive == false Game restart
         function update(_event) {
             processInput();
             viewport.draw();
@@ -53,23 +58,25 @@ var LastSuperBowl;
         keysPressed[_event.code] = (_event.type == "keydown");
     }
     function processInput() {
-        if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.A]) {
-            LastSuperBowl.hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.LEFT);
-            return;
+        if (LastSuperBowl.hare.alive == true) {
+            if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.A]) {
+                LastSuperBowl.hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.LEFT);
+                return;
+            }
+            if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.D]) {
+                LastSuperBowl.hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.RIGHT);
+                return;
+            }
+            if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.W]) {
+                LastSuperBowl.hare.act(LastSuperBowl.ACTION.JUMP);
+                return;
+            }
+            if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.E]) {
+                LastSuperBowl.hare.act(LastSuperBowl.ACTION.SHOOT, LastSuperBowl.DIRECTION.RIGHT, LastSuperBowl.hare.item);
+                return;
+            }
+            LastSuperBowl.hare.act(LastSuperBowl.ACTION.IDLE);
         }
-        if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.D]) {
-            LastSuperBowl.hare.act(LastSuperBowl.ACTION.WALK, LastSuperBowl.DIRECTION.RIGHT);
-            return;
-        }
-        if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.W]) {
-            LastSuperBowl.hare.act(LastSuperBowl.ACTION.JUMP);
-            return;
-        }
-        if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.E]) {
-            LastSuperBowl.hare.act(LastSuperBowl.ACTION.SHOOT, LastSuperBowl.DIRECTION.RIGHT, LastSuperBowl.hare.item);
-            return;
-        }
-        LastSuperBowl.hare.act(LastSuperBowl.ACTION.IDLE);
     }
 })(LastSuperBowl || (LastSuperBowl = {}));
 //# sourceMappingURL=Main.js.map

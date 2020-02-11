@@ -50,6 +50,21 @@ var LastSuperBowl;
                         continue;
                     }
                 }
+                //hit Abfrage Enemy
+                for (let child of LastSuperBowl.game.getChildren()) {
+                    if (child.name == "Enemy") {
+                        let hitbox = Hitbox;
+                        hitbox = child.hitbox;
+                        if (this.hitDetected(hitbox)) {
+                            console.log("Tod");
+                            LastSuperBowl.hare.alive = false;
+                            LastSuperBowl.game.removeChild(LastSuperBowl.hare);
+                        }
+                    }
+                    else {
+                        continue;
+                    }
+                }
             }
         }
         hitDetected(hitbox) {

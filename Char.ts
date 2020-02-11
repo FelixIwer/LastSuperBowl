@@ -19,6 +19,7 @@ namespace LastSuperBowl {
       public speed: fudge.Vector3 = fudge.Vector3.ZERO();
       public hitbox: Hitbox;
       public item: ITEM = ITEM.NONE;
+      public alive: boolean = true;
   
       constructor(_name: string = "Hare") {
         super(_name);
@@ -49,9 +50,9 @@ namespace LastSuperBowl {
         let sprite: Sprite = new Sprite(ACTION.WALK);
         sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 34, 35), 5, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
         Hare.sprites.push(sprite);
-  
+
         sprite = new Sprite(ACTION.IDLE);
-        sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(6, 45, 30, 35), 8, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
+        sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(6, 45, 30, 35), 1, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
         Hare.sprites.push(sprite);
       }
   
@@ -60,9 +61,9 @@ namespace LastSuperBowl {
         let hitbox: Hitbox = new Hitbox("PlayerHitbox");
 
         //Hitbox Player verändern
-        hitbox.cmpTransform.local.translateY(1.1);
-        hitbox.cmpTransform.local.scaleX(0.75);
-        hitbox.cmpTransform.local.scaleY(1.1);
+        hitbox.cmpTransform.local.translateY(1.2);
+        hitbox.cmpTransform.local.scaleX(1);
+        hitbox.cmpTransform.local.scaleY(1.2);
 
         this.hitbox = hitbox;
         return hitbox;

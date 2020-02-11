@@ -40,49 +40,64 @@ namespace LastSuperBowl {
         }
 
         public checkCollision(): void {
-            for (let floor of floorHigh.getChildren()) {
-              for (let child of floor.getChildren()) {
-                if (child.name == "Item") {         //collision Item
-                  let hitbox: Hitbox;
-                  hitbox = (<Item>child).hitbox;
-                  if (this.hitDetected(hitbox)) {
-                    if (hare.item != (<Item>child).type) {
-                      hare.item = (<Item>child).type;
-                      child.cmpTransform.local.translateY(10);
-                    }
-                    if (hare.item == ITEM.NONE) {
-                      hare.item = (<Item>child).type;
-                      child.cmpTransform.local.translateY(10);
-                    }
+          for (let floor of floorHigh.getChildren()) {
+            for (let child of floor.getChildren()) {
+              if (child.name == "Item") {         //collision Item
+                let hitbox: Hitbox;
+                hitbox = (<Item>child).hitbox;
+                if (this.hitDetected(hitbox)) {
+                  if (hare.item != (<Item>child).type) {
+                    hare.item = (<Item>child).type;
+                    child.cmpTransform.local.translateY(10);
                   }
-                } else {
-                  continue;
+                  if (hare.item == ITEM.NONE) {
+                    hare.item = (<Item>child).type;
+                    child.cmpTransform.local.translateY(10);
+                  }
                 }
+              } else {
+                continue;
+              }
+            }
+
+            //hit Abfrage Enemy
+            for (let child of game.getChildren()) {
+              if (child.name == "Enemy") {
+                let hitbox = Hitbox;
+                hitbox = (<Enemy>child).hitbox;
+                if (this.hitDetected(hitbox)) {
+                  console.log("Tod");
+                  hare.alive = false;
+                  game.removeChild(hare);
+                }
+              } else {
+                continue;
               }
             }
           }
+        }
 
-          private hitDetected(hitbox: Hitbox): boolean {
-            let hit: boolean = false;
-            let rectOfThis: fudge.Rectangle = (<Hitbox>this).getRectWorld();
-            let rectOfThat: fudge.Rectangle = hitbox.getRectWorld();
-            let expansionRight: fudge.Vector2 = new fudge.Vector2(rectOfThat.size.x);
-            let expansionDown: fudge.Vector2 = new fudge.Vector2(0, rectOfThat.size.y);
-            let topRight: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionRight);
-            let bottomLeft: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionDown);
-            let bottomRight: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionDown, expansionRight);
+        private hitDetected(hitbox: Hitbox): boolean {
+          let hit: boolean = false;
+          let rectOfThis: fudge.Rectangle = (<Hitbox>this).getRectWorld();
+          let rectOfThat: fudge.Rectangle = hitbox.getRectWorld();
+          let expansionRight: fudge.Vector2 = new fudge.Vector2(rectOfThat.size.x);
+          let expansionDown: fudge.Vector2 = new fudge.Vector2(0, rectOfThat.size.y);
+          let topRight: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionRight);
+          let bottomLeft: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionDown);
+          let bottomRight: fudge.Vector2 = fudge.Vector2.SUM(rectOfThat.position, expansionDown, expansionRight);
 
-            if (rectOfThis.isInside(rectOfThat.position)) {
-              hit = true;
-            } else if (rectOfThis.isInside(topRight)) {
-              hit = true;
-            } else if (rectOfThis.isInside(bottomLeft)) {
-              hit = true;
-            } else if (rectOfThis.isInside(bottomRight)) {
-              hit = true;
-            }
-
-            return hit;
+          if (rectOfThis.isInside(rectOfThat.position)) {
+            hit = true;
+          } else if (rectOfThis.isInside(topRight)) {
+            hit = true;
+          } else if (rectOfThis.isInside(bottomLeft)) {
+            hit = true;
+          } else if (rectOfThis.isInside(bottomRight)) {
+            hit = true;
           }
+
+          return hit;
+        }
     }
 }

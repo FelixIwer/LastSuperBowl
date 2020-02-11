@@ -16,7 +16,7 @@ namespace LastSuperBowl {
       this.appendChild(nodeSprite);
 
       this.addComponent(new fudge.ComponentTransform());
-      this.addComponent(new fudge.ComponentMaterial(Floor.material));
+      //this.addComponent(new fudge.ComponentMaterial(Floor.material));
       let cmpMesh: fudge.ComponentMesh = new fudge.ComponentMesh(Floor.mesh);
       cmpMesh.pivot = Floor.pivot;
       this.addComponent(cmpMesh);
