@@ -44,10 +44,10 @@ var LastSuperBowl;
         static generateSprites(_txtImage) {
             Hare.sprites = [];
             let sprite = new LastSuperBowl.Sprite(ACTION.WALK);
-            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(2, 104, 68, 64), 6, fudge.Vector2.ZERO(), 64, fudge.ORIGIN2D.BOTTOMCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 34, 35), 5, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
             Hare.sprites.push(sprite);
             sprite = new LastSuperBowl.Sprite(ACTION.IDLE);
-            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(8, 20, 45, 72), 4, fudge.Vector2.ZERO(), 64, fudge.ORIGIN2D.BOTTOMCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(6, 45, 30, 35), 8, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
             Hare.sprites.push(sprite);
         }
         createHitbox() {

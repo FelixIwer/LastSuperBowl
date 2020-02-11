@@ -16,7 +16,7 @@ namespace LastSuperBowl {
       this.appendChild(nodeSprite);
 
       this.addComponent(new fudge.ComponentTransform());
-      //this.addComponent(new fudge.ComponentMaterial(Floor.material));
+      this.addComponent(new fudge.ComponentMaterial(Floor.material));
       let cmpMesh: fudge.ComponentMesh = new fudge.ComponentMesh(Floor.mesh);
       cmpMesh.pivot = Floor.pivot;
       this.addComponent(cmpMesh);
@@ -40,7 +40,7 @@ namespace LastSuperBowl {
     public static generateSprites(_txtImage: fudge.TextureImage): void {
       Floor.sprites = [];
       let sprite: Sprite = new Sprite("FloorSprite");
-      sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(17, 995, 220, 77), 1, fudge.Vector2.ZERO(), 220, fudge.ORIGIN2D.TOPCENTER);
+      sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(272, 420, 215, 71), 1, fudge.Vector2.ZERO(), 60, fudge.ORIGIN2D.TOPCENTER);
       Floor.sprites.push(sprite);
     }
 

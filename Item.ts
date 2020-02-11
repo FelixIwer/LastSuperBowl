@@ -37,19 +37,19 @@ namespace LastSuperBowl {
         public static generateSprites(_txtImage: fudge.TextureImage): void {
             Item.sprites = [];
             let sprite: Sprite = new Sprite(ITEM.FOOTBALL);
-            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(402, 943, 20, 12), 1, fudge.Vector2.ZERO(), 35, fudge.ORIGIN2D.TOPCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(6, 9, 20, 12), 1, fudge.Vector2.ZERO(), 35, fudge.ORIGIN2D.TOPCENTER);
             Item.sprites.push(sprite);
 
             sprite = new Sprite(ITEM.BILLSDILDO);
-            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(439, 943, 27, 15), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(35, 7, 27, 15), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
             Item.sprites.push(sprite);
 
             sprite = new Sprite(ITEM.SKITTLES);
-            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(474, 942, 43, 17), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(71, 4, 43, 17), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
             Item.sprites.push(sprite);
 
             sprite = new Sprite(ITEM.SBTROPHY);
-            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(526, 936, 16, 26), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(123, 1, 16, 26), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
             Item.sprites.push(sprite);
         }
         
