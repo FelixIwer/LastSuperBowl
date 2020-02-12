@@ -88,13 +88,18 @@ var LastSuperBowl;
         walking() {
             let distance;
             //wenn negativ ist Char links von Enemy, wenn positiv ist Char rechts von Enemy
-            distance = LastSuperBowl.hare.mtxWorld.translation.x - LastSuperBowl.enemy.mtxWorld.translation.x;
+            distance = LastSuperBowl.player.mtxWorld.translation.x - LastSuperBowl.enemy.mtxWorld.translation.x;
             if (distance > 15) {
                 LastSuperBowl.game.removeChild(LastSuperBowl.enemy);
             }
             else if (distance >= -5) {
                 console.log(distance);
-                this.act(EACTION.EWALK, EDIRECTION.ELEFT);
+                if (LastSuperBowl.player.alive == true) {
+                    this.act(EACTION.EWALK, EDIRECTION.ELEFT);
+                }
+                else {
+                    this.act(EACTION.EIDLE);
+                }
             }
         }
     }

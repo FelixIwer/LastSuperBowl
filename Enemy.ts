@@ -115,12 +115,16 @@ namespace LastSuperBowl {
         private walking(): void {
             let distance: number;
             //wenn negativ ist Char links von Enemy, wenn positiv ist Char rechts von Enemy
-            distance = hare.mtxWorld.translation.x - enemy.mtxWorld.translation.x;
+            distance = player.mtxWorld.translation.x - enemy.mtxWorld.translation.x;
             if (distance > 15 ) {
                 game.removeChild(enemy);
             } else if (distance >= -5) {
                 console.log(distance);
-                this.act(EACTION.EWALK, EDIRECTION.ELEFT);
+                if (player.alive == true) {
+                    this.act(EACTION.EWALK, EDIRECTION.ELEFT);
+                } else {
+                    this.act(EACTION.EIDLE);
+                }
             }
         }
     }

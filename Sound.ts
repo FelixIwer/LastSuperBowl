@@ -31,6 +31,5 @@ namespace LastSuperBowl {
         public static continueMusic(): void {
             Sound.sounds["backgroundSound"].play();
         }
-      }
     }
 }

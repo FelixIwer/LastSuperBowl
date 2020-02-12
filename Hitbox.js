@@ -36,12 +36,12 @@ var LastSuperBowl;
                         let hitbox;
                         hitbox = child.hitbox;
                         if (this.hitDetected(hitbox)) {
-                            if (LastSuperBowl.hare.item != child.type) {
-                                LastSuperBowl.hare.item = child.type;
+                            if (LastSuperBowl.player.item != child.type) {
+                                LastSuperBowl.player.item = child.type;
                                 // child.cmpTransform.local.translateY(4);
                             }
-                            if (LastSuperBowl.hare.item == LastSuperBowl.ITEM.NONE) {
-                                LastSuperBowl.hare.item = child.type;
+                            if (LastSuperBowl.player.item == LastSuperBowl.ITEM.NONE) {
+                                LastSuperBowl.player.item = child.type;
                                 // child.cmpTransform.local.translateY(4);
                             }
                         }
@@ -57,8 +57,7 @@ var LastSuperBowl;
                         hitbox = child.hitbox;
                         if (this.hitDetected(hitbox)) {
                             console.log("Tod");
-                            LastSuperBowl.hare.alive = false;
-                            LastSuperBowl.game.removeChild(LastSuperBowl.hare);
+                            LastSuperBowl.player.alive = false;
                         }
                     }
                     else {

@@ -14,8 +14,8 @@ var LastSuperBowl;
         DIRECTION[DIRECTION["LEFT"] = 0] = "LEFT";
         DIRECTION[DIRECTION["RIGHT"] = 1] = "RIGHT";
     })(DIRECTION = LastSuperBowl.DIRECTION || (LastSuperBowl.DIRECTION = {}));
-    class Hare extends fudge.Node {
-        constructor(_name = "Hare") {
+    class Player extends fudge.Node {
+        constructor(_name = "Player") {
             super(_name);
             this.speed = fudge.Vector3.ZERO();
             this.item = LastSuperBowl.ITEM.NONE;
@@ -23,7 +23,7 @@ var LastSuperBowl;
             this.update = (_event) => {
                 this.broadcastEvent(new CustomEvent("showNext"));
                 let timeFrame = fudge.Loop.timeFrameGame / 1000;
-                this.speed.y += Hare.gravity.y * timeFrame;
+                this.speed.y += Player.gravity.y * timeFrame;
                 let distance = fudge.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
                 this.checkCollision(LastSuperBowl.level);
@@ -31,7 +31,7 @@ var LastSuperBowl;
                 this.hitbox.checkCollision();
             };
             this.addComponent(new fudge.ComponentTransform());
-            for (let sprite of Hare.sprites) {
+            for (let sprite of Player.sprites) {
                 let nodeSprite = new LastSuperBowl.NodeSprite(sprite.name, sprite);
                 nodeSprite.activate(false);
                 nodeSprite.addEventListener("showNext", (_event) => { _event.currentTarget.showFrameNext(); }, true);
@@ -40,16 +40,17 @@ var LastSuperBowl;
             this.hitbox = this.createHitbox();
             this.appendChild(this.hitbox);
             this.show(ACTION.IDLE);
+            //löschen wenn er nicht mehr da ist fudge.Loop.removeEventListener(fudge.Event.Loop_Frame, this.update);
             fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
         }
         static generateSprites(_txtImage) {
-            Hare.sprites = [];
+            Player.sprites = [];
             let sprite = new LastSuperBowl.Sprite(ACTION.WALK);
             sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 34, 35), 5, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
-            Hare.sprites.push(sprite);
+            Player.sprites.push(sprite);
             sprite = new LastSuperBowl.Sprite(ACTION.IDLE);
             sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(6, 45, 30, 35), 1, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
-            Hare.sprites.push(sprite);
+            Player.sprites.push(sprite);
         }
         createHitbox() {
             let hitbox = new LastSuperBowl.Hitbox("PlayerHitbox");
@@ -67,7 +68,6 @@ var LastSuperBowl;
             }
             for (let child of this.getChildren())
                 child.activate(child.name == _action);
-            // this.action = _action;
         }
         act(_action, _direction, _item) {
             switch (_action) {
@@ -76,7 +76,7 @@ var LastSuperBowl;
                     break;
                 case ACTION.WALK:
                     let direction = (_direction == DIRECTION.RIGHT ? 1 : -1);
-                    this.speed.x = Hare.speedMax.x;
+                    this.speed.x = Player.speedMax.x;
                     this.cmpTransform.local.rotation = fudge.Vector3.Y(90 - 90 * direction);
                     break;
                 case ACTION.JUMP:
@@ -92,10 +92,10 @@ var LastSuperBowl;
                     console.log("SHOOOOOOOT");
                     // let item: Item = new Item(_item);
                     // game.appendChild(item);
-                    // item.cmpTransform.local.translation = hare.cmpTransform.local.translation;
+                    // item.cmpTransform.local.translation = player.cmpTransform.local.translation;
                     // item.cmpTransform.local.translateY(0.22);
-                    LastSuperBowl.hare.item = LastSuperBowl.ITEM.NONE;
-                    console.log(LastSuperBowl.hare.item);
+                    LastSuperBowl.player.item = LastSuperBowl.ITEM.NONE;
+                    console.log(LastSuperBowl.player.item);
                     break;
             }
             this.show(_action);
@@ -113,8 +113,8 @@ var LastSuperBowl;
             }
         }
     }
-    Hare.speedMax = new fudge.Vector2(1.5, 5);
-    Hare.gravity = fudge.Vector2.Y(-3);
-    LastSuperBowl.Hare = Hare;
+    Player.speedMax = new fudge.Vector2(1.5, 5);
+    Player.gravity = fudge.Vector2.Y(-3);
+    LastSuperBowl.Player = Player;
 })(LastSuperBowl || (LastSuperBowl = {}));
 //# sourceMappingURL=Char.js.map

@@ -85,7 +85,7 @@ var LastSuperBowl;
             this.addComponent(this.cmpMesh);
             this.addComponent(this.cmpMaterial);
             this.showFrame(this.frameCurrent);
-            fudge.Debug.info("NodeSprite constructor", this);
+            //fudge.Debug.info("NodeSprite constructor", this);
         }
         showFrame(_index) {
             let spriteFrame = this.sprite.frames[_index];

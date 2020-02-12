@@ -112,7 +112,7 @@ namespace LastSuperBowl {
   
         this.showFrame(this.frameCurrent);
   
-        fudge.Debug.info("NodeSprite constructor", this);
+        //fudge.Debug.info("NodeSprite constructor", this);
       }
   
       public showFrame(_index: number): void {

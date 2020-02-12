@@ -46,12 +46,12 @@ namespace LastSuperBowl {
                 let hitbox: Hitbox;
                 hitbox = (<Item>child).hitbox;
                 if (this.hitDetected(hitbox)) {
-                  if (hare.item != (<Item>child).type) {
-                    hare.item = (<Item>child).type;
+                  if (player.item != (<Item>child).type) {
+                    player.item = (<Item>child).type;
                     // child.cmpTransform.local.translateY(4);
                   }
-                  if (hare.item == ITEM.NONE) {
-                    hare.item = (<Item>child).type;
+                  if (player.item == ITEM.NONE) {
+                    player.item = (<Item>child).type;
                     // child.cmpTransform.local.translateY(4);
                   }
                 }
@@ -67,8 +67,7 @@ namespace LastSuperBowl {
                 hitbox = (<Enemy>child).hitbox;
                 if (this.hitDetected(hitbox)) {
                   console.log("Tod");
-                  hare.alive = false;
-                  game.removeChild(hare);
+                  player.alive = false;
                 }
               } else {
                 continue;

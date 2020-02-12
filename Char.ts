@@ -11,7 +11,7 @@ namespace LastSuperBowl {
       LEFT, RIGHT
     }
   
-    export class Hare extends fudge.Node {
+    export class Player extends fudge.Node {
 
       private static sprites: Sprite[];
       private static speedMax: fudge.Vector2 = new fudge.Vector2(1.5, 5);
@@ -21,11 +21,11 @@ namespace LastSuperBowl {
       public item: ITEM = ITEM.NONE;
       public alive: boolean = true;
   
-      constructor(_name: string = "Hare") {
+      constructor(_name: string = "Player") {
         super(_name);
         this.addComponent(new fudge.ComponentTransform());
   
-        for (let sprite of Hare.sprites) {
+        for (let sprite of Player.sprites) {
           let nodeSprite: NodeSprite = new NodeSprite(sprite.name, sprite);
           nodeSprite.activate(false);
   
@@ -42,18 +42,19 @@ namespace LastSuperBowl {
         this.appendChild(this.hitbox);
         this.show(ACTION.IDLE);
 
+        //löschen wenn er nicht mehr da ist fudge.Loop.removeEventListener(fudge.Event.Loop_Frame, this.update);
         fudge.Loop.addEventListener(fudge.EVENT.LOOP_FRAME, this.update);
       }
   
       public static generateSprites(_txtImage: fudge.TextureImage): void {
-        Hare.sprites = [];
+        Player.sprites = [];
         let sprite: Sprite = new Sprite(ACTION.WALK);
         sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 34, 35), 5, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
-        Hare.sprites.push(sprite);
+        Player.sprites.push(sprite);
 
         sprite = new Sprite(ACTION.IDLE);
         sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(6, 45, 30, 35), 1, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
-        Hare.sprites.push(sprite);
+        Player.sprites.push(sprite);
       }
   
       public createHitbox(): Hitbox {
@@ -77,7 +78,6 @@ namespace LastSuperBowl {
 
         for (let child of this.getChildren())
           child.activate(child.name == _action);
-        // this.action = _action;
       }
   
       public act(_action: ACTION, _direction?: DIRECTION, _item?: ITEM): void {
@@ -87,7 +87,7 @@ namespace LastSuperBowl {
             break;
           case ACTION.WALK:
             let direction: number = (_direction == DIRECTION.RIGHT ? 1 : -1);
-            this.speed.x = Hare.speedMax.x;
+            this.speed.x = Player.speedMax.x;
             this.cmpTransform.local.rotation = fudge.Vector3.Y(90 - 90 * direction);
             break;
           case ACTION.JUMP:
@@ -102,10 +102,10 @@ namespace LastSuperBowl {
             console.log("SHOOOOOOOT");
             // let item: Item = new Item(_item);
             // game.appendChild(item);
-            // item.cmpTransform.local.translation = hare.cmpTransform.local.translation;
+            // item.cmpTransform.local.translation = player.cmpTransform.local.translation;
             // item.cmpTransform.local.translateY(0.22);
-            hare.item = ITEM.NONE;
-            console.log(hare.item);
+            player.item = ITEM.NONE;
+            console.log(player.item);
             break;
         }
         this.show(_action);
@@ -115,7 +115,7 @@ namespace LastSuperBowl {
         this.broadcastEvent(new CustomEvent("showNext"));
   
         let timeFrame: number = fudge.Loop.timeFrameGame / 1000;
-        this.speed.y += Hare.gravity.y * timeFrame;
+        this.speed.y += Player.gravity.y * timeFrame;
         let distance: fudge.Vector3 = fudge.Vector3.SCALE(this.speed, timeFrame);
         this.cmpTransform.local.translate(distance);
         

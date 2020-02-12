@@ -5,3 +5,7 @@
     top: 10px;
     left: 370px;
 }
+
+#endScreen {
+    visibility: hidden;
+}
