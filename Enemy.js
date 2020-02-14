@@ -42,7 +42,7 @@ var LastSuperBowl;
         static generateSprites(_txtImage) {
             Enemy.sprites = [];
             let sprite = new LastSuperBowl.Sprite(EACTION.EWALK);
-            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 34, 35), 5, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 35, 35), 5, fudge.Vector2.X(8), 30, fudge.ORIGIN2D.BOTTOMCENTER);
             Enemy.sprites.push(sprite);
             sprite = new LastSuperBowl.Sprite(EACTION.EIDLE);
             sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(6, 45, 30, 35), 8, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
@@ -72,6 +72,7 @@ var LastSuperBowl;
                     this.cmpTransform.local.rotation = fudge.Vector3.Y(90 - 90 * direction);
                     break;
             }
+            this.show(_action);
         }
         checkCollision(_checkCollision) {
             for (let floor of _checkCollision.getChildren()) {
@@ -93,7 +94,6 @@ var LastSuperBowl;
                 LastSuperBowl.game.removeChild(LastSuperBowl.enemy);
             }
             else if (distance >= -5) {
-                console.log(distance);
                 if (LastSuperBowl.player.alive == true) {
                     this.act(EACTION.EWALK, EDIRECTION.ELEFT);
                 }

@@ -14,6 +14,7 @@ namespace LastSuperBowl {
   export let level: Level;
   export let floorHigh: FloorHigh;
   export let enemy: Enemy;
+
   export let score: number = 0;
   export let team: TEAM = TEAM.NONE;
   export let itemContainer: fudge.Node;
@@ -29,6 +30,7 @@ namespace LastSuperBowl {
     Floor.generateSprites(txtPlayer);
     Item.generateSprites(txtPlayer);
     Enemy.generateSprites(txtPlayer);
+    Gravestone.generateSprites(txtPlayer);
 
     fudge.RenderManager.initialize(true, false);
     game = new fudge.Node("Game");
@@ -124,7 +126,11 @@ namespace LastSuperBowl {
       }
       if (player.item != "None") {
         if (keysPressed[fudge.KEYBOARD_CODE.E]) {
-          player.act(ACTION.SHOOT, DIRECTION.RIGHT, player.item);
+          if (player.item == "Skittles" || player.item == "SBTrophy" || player.item == "Gatorade"){
+            player.act(ACTION.USE, null, null, false);
+          } else {
+            player.act(ACTION.USE, DIRECTION.RIGHT, player.item, true);
+          }
           return;
         }
       }
@@ -143,7 +149,6 @@ namespace LastSuperBowl {
     }
     let sString: string = score.toString();
     document.getElementById("Score").innerHTML = sString;
-    console.log(score);
   }
 
   function endScreen(): void {
@@ -151,10 +156,14 @@ namespace LastSuperBowl {
     over.style.visibility = "visible";
     let sString: string = score.toString();
     document.getElementById("endScore").innerHTML = sString;
+
+    //remove Movement, Player and Pause Music
     window.removeEventListener("keydown", handleKeyboard);
     window.removeEventListener("keyup", handleKeyboard);
     Sound.pauseMusic();
     player.speed.x = 0;
+    player.speed.y = 0;
+
     game.removeChild(player);
   }
 }

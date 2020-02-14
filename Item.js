@@ -9,9 +9,10 @@ var LastSuperBowl;
         ITEM["BILLSDILDO"] = "BillsDildo";
         ITEM["SKITTLES"] = "Skittles";
         ITEM["SBTROPHY"] = "SBTrophy";
+        ITEM["GATORADE"] = "Gatorade";
     })(ITEM = LastSuperBowl.ITEM || (LastSuperBowl.ITEM = {}));
     class Item extends fudge.Node {
-        constructor(type, _shootable) {
+        constructor(type, _shootable, _consumable) {
             super("Item");
             this.update = (_event) => {
                 if (!this.hit) {
@@ -53,6 +54,9 @@ var LastSuperBowl;
             Item.sprites.push(sprite);
             sprite = new LastSuperBowl.Sprite(ITEM.SBTROPHY);
             sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(123, 1, 16, 26), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
+            Item.sprites.push(sprite);
+            sprite = new LastSuperBowl.Sprite(ITEM.GATORADE);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(147, 2, 12, 27), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
             Item.sprites.push(sprite);
         }
         //set Hitbox of Item

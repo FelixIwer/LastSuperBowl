@@ -16,6 +16,7 @@ var LastSuperBowl;
         LastSuperBowl.Floor.generateSprites(txtPlayer);
         LastSuperBowl.Item.generateSprites(txtPlayer);
         LastSuperBowl.Enemy.generateSprites(txtPlayer);
+        LastSuperBowl.Gravestone.generateSprites(txtPlayer);
         LastSuperBowl.fudge.RenderManager.initialize(true, false);
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
         // game.addComponent(new fudge.ComponentTransform());
@@ -92,7 +93,12 @@ var LastSuperBowl;
             }
             if (LastSuperBowl.player.item != "None") {
                 if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.E]) {
-                    LastSuperBowl.player.act(LastSuperBowl.ACTION.SHOOT, LastSuperBowl.DIRECTION.RIGHT, LastSuperBowl.player.item);
+                    if (LastSuperBowl.player.item == "Skittles" || LastSuperBowl.player.item == "SBTrophy" || LastSuperBowl.player.item == "Gatorade") {
+                        LastSuperBowl.player.act(LastSuperBowl.ACTION.USE, null, null, false);
+                    }
+                    else {
+                        LastSuperBowl.player.act(LastSuperBowl.ACTION.USE, LastSuperBowl.DIRECTION.RIGHT, LastSuperBowl.player.item, true);
+                    }
                     return;
                 }
             }
@@ -107,17 +113,18 @@ var LastSuperBowl;
         }
         let sString = LastSuperBowl.score.toString();
         document.getElementById("Score").innerHTML = sString;
-        console.log(LastSuperBowl.score);
     }
     function endScreen() {
         let over = document.querySelector("div#endScreen");
         over.style.visibility = "visible";
         let sString = LastSuperBowl.score.toString();
         document.getElementById("endScore").innerHTML = sString;
+        //remove Movement, Player and Pause Music
         window.removeEventListener("keydown", handleKeyboard);
         window.removeEventListener("keyup", handleKeyboard);
         LastSuperBowl.Sound.pauseMusic();
         LastSuperBowl.player.speed.x = 0;
+        LastSuperBowl.player.speed.y = 0;
         LastSuperBowl.game.removeChild(LastSuperBowl.player);
     }
 })(LastSuperBowl || (LastSuperBowl = {}));

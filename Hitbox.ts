@@ -66,7 +66,9 @@ namespace LastSuperBowl {
                 let hitbox = Hitbox;
                 hitbox = (<Enemy>child).hitbox;
                 if (this.hitDetected(hitbox)) {
-                  console.log("Tod");
+                  console.log("DEAD BODY", player.mtxWorld.translation.x);
+                  let gravestone: Gravestone = new Gravestone(player.mtxWorld.translation.x);
+                  game.appendChild(gravestone);
                   player.alive = false;
                 }
               } else {

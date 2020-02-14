@@ -7,7 +7,8 @@ namespace LastSuperBowl {
         FOOTBALL = "Football",
         BILLSDILDO = "BillsDildo",
         SKITTLES = "Skittles",
-        SBTROPHY = "SBTrophy"
+        SBTROPHY = "SBTrophy",
+        GATORADE = "Gatorade"
     }
 
     export class Item extends fudge.Node {
@@ -15,10 +16,10 @@ namespace LastSuperBowl {
         private static sprites: Sprite[];
         public hitbox: Hitbox;
         public type: ITEM;
-        private direction: DIRECTION;
         public hit: boolean;
+        private direction: DIRECTION;
 
-        public constructor(type: ITEM, _shootable?: boolean) {
+        public constructor(type: ITEM, _shootable?: boolean, _consumable?: boolean) {
             super("Item");
 
             this.type = type;
@@ -56,6 +57,10 @@ namespace LastSuperBowl {
 
             sprite = new Sprite(ITEM.SBTROPHY);
             sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(123, 1, 16, 26), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
+            Item.sprites.push(sprite);
+
+            sprite = new Sprite(ITEM.GATORADE);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(147, 2, 12, 27), 1, fudge.Vector2.ZERO(), 50, fudge.ORIGIN2D.TOPCENTER);
             Item.sprites.push(sprite);
         }
         

@@ -7,7 +7,7 @@ var LastSuperBowl;
         ACTION["IDLE"] = "Idle";
         ACTION["WALK"] = "Walk";
         ACTION["JUMP"] = "Jump";
-        ACTION["SHOOT"] = "Shoot";
+        ACTION["USE"] = "Use";
     })(ACTION = LastSuperBowl.ACTION || (LastSuperBowl.ACTION = {}));
     let DIRECTION;
     (function (DIRECTION) {
@@ -54,7 +54,7 @@ var LastSuperBowl;
         static generateSprites(_txtImage) {
             Player.sprites = [];
             let sprite = new LastSuperBowl.Sprite(ACTION.WALK);
-            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 34, 35), 5, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 35, 35), 5, fudge.Vector2.X(8), 30, fudge.ORIGIN2D.BOTTOMCENTER);
             Player.sprites.push(sprite);
             sprite = new LastSuperBowl.Sprite(ACTION.IDLE);
             sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(6, 45, 30, 35), 1, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
@@ -77,7 +77,7 @@ var LastSuperBowl;
             for (let child of this.getChildren())
                 child.activate(child.name == _action);
         }
-        act(_action, _direction, _item) {
+        act(_action, _direction, _item, _shootable) {
             this.direction = _direction;
             switch (_action) {
                 case ACTION.IDLE:
@@ -97,20 +97,32 @@ var LastSuperBowl;
                         this.speed.y = 3.5;
                     }
                     break;
-                case ACTION.SHOOT:
-                    // console.log("SHOOOOOOOT");
-                    let item = new LastSuperBowl.Item(_item, true);
-                    LastSuperBowl.itemContainer.appendChild(item);
-                    item.cmpTransform.local.translation = LastSuperBowl.player.cmpTransform.local.translation;
-                    if (LastSuperBowl.player.direction == DIRECTION.RIGHT) {
-                        item.cmpTransform.local.translateX(1);
+                case ACTION.USE:
+                    console.log(_item);
+                    if (_shootable == true) {
+                        let item = new LastSuperBowl.Item(_item, true);
+                        LastSuperBowl.itemContainer.appendChild(item);
+                        item.cmpTransform.local.translation = LastSuperBowl.player.cmpTransform.local.translation;
+                        if (LastSuperBowl.player.direction == DIRECTION.RIGHT) {
+                            item.cmpTransform.local.translateX(1);
+                        }
+                        else {
+                            item.cmpTransform.local.translateX(-1);
+                        }
+                        item.cmpTransform.local.translateY(0.5);
+                        LastSuperBowl.player.item = LastSuperBowl.ITEM.NONE;
+                        break;
                     }
                     else {
-                        item.cmpTransform.local.translateX(-1);
+                        switch (_item) {
+                            case "Skittles":
+                                console.log("Sk");
+                            case "SBTrophy":
+                                console.log("SB");
+                            case "Gatorade":
+                                console.log("GA");
+                        }
                     }
-                    item.cmpTransform.local.translateY(0.5);
-                    LastSuperBowl.player.item = LastSuperBowl.ITEM.NONE;
-                    break;
             }
             this.show(_action);
         }

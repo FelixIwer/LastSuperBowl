@@ -5,11 +5,12 @@ namespace LastSuperBowl {
       IDLE = "Idle",
       WALK = "Walk",
       JUMP = "Jump",
-      SHOOT = "Shoot"
+      USE = "Use"
     }
 
     export enum DIRECTION {
-      LEFT, RIGHT
+      LEFT,
+      RIGHT
     }
 
     export enum TEAM {
@@ -59,7 +60,7 @@ namespace LastSuperBowl {
       public static generateSprites(_txtImage: fudge.TextureImage): void {
         Player.sprites = [];
         let sprite: Sprite = new Sprite(ACTION.WALK);
-        sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 34, 35), 5, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
+        sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 35, 35), 5, fudge.Vector2.X(8), 30, fudge.ORIGIN2D.BOTTOMCENTER);
         Player.sprites.push(sprite);
 
         sprite = new Sprite(ACTION.IDLE);
@@ -90,7 +91,7 @@ namespace LastSuperBowl {
           child.activate(child.name == _action);
       }
   
-      public act(_action: ACTION, _direction?: DIRECTION, _item?: ITEM): void {
+      public act(_action: ACTION, _direction?: DIRECTION, _item?: ITEM, _shootable?: boolean): void {
         this.direction = _direction;
         switch (_action) {
           case ACTION.IDLE:
@@ -109,19 +110,30 @@ namespace LastSuperBowl {
               this.speed.y = 3.5;
             }
             break;
-          case ACTION.SHOOT:
-            // console.log("SHOOOOOOOT");
-            let item: Item = new Item(_item, true);
-            itemContainer.appendChild(item);
-            item.cmpTransform.local.translation = player.cmpTransform.local.translation;
-            if (player.direction == DIRECTION.RIGHT) {
-              item.cmpTransform.local.translateX(1);
+          case ACTION.USE:
+            console.log(_item);
+            if (_shootable == true) {
+              let item: Item = new Item(_item, true);
+              itemContainer.appendChild(item);
+              item.cmpTransform.local.translation = player.cmpTransform.local.translation;
+              if (player.direction == DIRECTION.RIGHT) {
+                item.cmpTransform.local.translateX(1);
+              } else {
+                item.cmpTransform.local.translateX(-1);
+              }
+              item.cmpTransform.local.translateY(0.5);
+              player.item = ITEM.NONE;
+              break;
             } else {
-              item.cmpTransform.local.translateX(-1);
+              switch (_item) {
+                case "Skittles":
+                  console.log("Sk");
+                case "SBTrophy":
+                  console.log("SB");
+                case "Gatorade":
+                  console.log("GA");
+              }
             }
-            item.cmpTransform.local.translateY(0.5);
-            player.item = ITEM.NONE;
-            break;
         }
         this.show(_action);
       }

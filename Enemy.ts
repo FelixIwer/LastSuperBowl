@@ -47,7 +47,7 @@ namespace LastSuperBowl {
         public static generateSprites(_txtImage: fudge.TextureImage): void {
             Enemy.sprites = [];
             let sprite: Sprite = new Sprite(EACTION.EWALK);
-            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 34, 35), 5, fudge.Vector2.X(5), 30, fudge.ORIGIN2D.BOTTOMCENTER);
+            sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(7, 96, 35, 35), 5, fudge.Vector2.X(8), 30, fudge.ORIGIN2D.BOTTOMCENTER);
             Enemy.sprites.push(sprite);
       
             sprite = new Sprite(EACTION.EIDLE);
@@ -84,6 +84,7 @@ namespace LastSuperBowl {
                     this.cmpTransform.local.rotation = fudge.Vector3.Y(90 - 90 * direction);
                     break;
             }
+            this.show(_action);
         }
 
         private update = (_event: fudge.Eventƒ): void => {
@@ -119,7 +120,6 @@ namespace LastSuperBowl {
             if (distance > 15 ) {
                 game.removeChild(enemy);
             } else if (distance >= -5) {
-                console.log(distance);
                 if (player.alive == true) {
                     this.act(EACTION.EWALK, EDIRECTION.ELEFT);
                 } else {

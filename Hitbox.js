@@ -56,7 +56,9 @@ var LastSuperBowl;
                         let hitbox = Hitbox;
                         hitbox = child.hitbox;
                         if (this.hitDetected(hitbox)) {
-                            console.log("Tod");
+                            console.log("DEAD BODY", LastSuperBowl.player.mtxWorld.translation.x);
+                            let gravestone = new LastSuperBowl.Gravestone(LastSuperBowl.player.mtxWorld.translation.x);
+                            LastSuperBowl.game.appendChild(gravestone);
                             LastSuperBowl.player.alive = false;
                         }
                     }
