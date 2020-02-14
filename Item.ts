@@ -15,8 +15,10 @@ namespace LastSuperBowl {
         private static sprites: Sprite[];
         public hitbox: Hitbox;
         public type: ITEM;
-    
-        public constructor(type: ITEM) {
+        private direction: DIRECTION;
+        public hit: boolean;
+
+        public constructor(type: ITEM, _shootable?: boolean) {
             super("Item");
 
             this.type = type;
@@ -32,6 +34,10 @@ namespace LastSuperBowl {
             this.show();
             this.hitbox = this.creatHitbox(type);
             this.appendChild(this.hitbox);
+            if (_shootable == true) {
+                fudge.Loop.addEventListener(fudge.EVENT.LOOP_FRAME, this.update);
+                this.direction = player.direction;
+            }
         }
     
         public static generateSprites(_txtImage: fudge.TextureImage): void {
@@ -75,6 +81,28 @@ namespace LastSuperBowl {
         public show(): void {
           for (let child of this.getChildren())
             child.activate(child.name == this.type);
+        }
+
+        public update = (_event: fudge.Eventƒ): void => {
+            if (!this.hit) {
+                let direction: number = (this.direction == DIRECTION.RIGHT ? 1 : -1);
+                this.cmpTransform.local.translateX(0.2 * direction);
+                if (this.hitbox.checkCollision(true)) {
+                    this.hit = true;
+                    console.log("HITTTT");
+                }  
+                this.checkCollision(enemy);
+            }
+        }
+
+        private checkCollision(_checkCollision: fudge.Node): void {
+            for (let floor of _checkCollision.getChildren()) {
+                let rect: fudge.Rectangle = (<Floor>floor).getRectWorld();
+                let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                if (hit) {
+                    this.hit = true;
+                } 
+            }
         }
     }
 }

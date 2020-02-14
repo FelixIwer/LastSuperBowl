@@ -39,7 +39,7 @@ namespace LastSuperBowl {
             return rect;
         }
 
-        public checkCollision(): void {
+        public checkCollision(_shootable?: boolean): boolean {
           for (let floor of floorHigh.getChildren()) {
             for (let child of floor.getChildren()) {
               if (child.name == "Item") {         //collision Item
@@ -48,11 +48,11 @@ namespace LastSuperBowl {
                 if (this.hitDetected(hitbox)) {
                   if (player.item != (<Item>child).type) {
                     player.item = (<Item>child).type;
-                    // child.cmpTransform.local.translateY(4);
+                    child.cmpTransform.local.translateY(4);
                   }
                   if (player.item == ITEM.NONE) {
                     player.item = (<Item>child).type;
-                    // child.cmpTransform.local.translateY(4);
+                    child.cmpTransform.local.translateY(4);
                   }
                 }
               } else {
@@ -74,6 +74,7 @@ namespace LastSuperBowl {
               }
             }
           }
+          return false;
         }
 
         private hitDetected(hitbox: Hitbox): boolean {

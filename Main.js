@@ -5,6 +5,7 @@ var LastSuperBowl;
     window.addEventListener("load", MainGame);
     let keysPressed = {};
     LastSuperBowl.score = 0;
+    LastSuperBowl.team = LastSuperBowl.TEAM.NONE;
     function MainGame() {
         let canvas = document.querySelector("canvas");
         let crc2 = canvas.getContext("2d");
@@ -19,11 +20,13 @@ var LastSuperBowl;
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
         // game.addComponent(new fudge.ComponentTransform());
         // game.cmpTransform.local.translateY(-1);
+        LastSuperBowl.itemContainer = new LastSuperBowl.fudge.Node("ItemContainer");
         LastSuperBowl.player = new LastSuperBowl.Player("Player");
         LastSuperBowl.level = new LastSuperBowl.Level();
         LastSuperBowl.floorHigh = new LastSuperBowl.FloorHigh();
         LastSuperBowl.enemy = new LastSuperBowl.Enemy("Enemy");
         LastSuperBowl.game.appendChild(LastSuperBowl.player);
+        LastSuperBowl.game.appendChild(LastSuperBowl.itemContainer);
         LastSuperBowl.game.appendChild(LastSuperBowl.enemy);
         LastSuperBowl.game.appendChild(LastSuperBowl.level);
         LastSuperBowl.game.appendChild(LastSuperBowl.floorHigh);
@@ -47,6 +50,8 @@ var LastSuperBowl;
         document.addEventListener("keyup", handleKeyboard);
         LastSuperBowl.fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         LastSuperBowl.fudge.Loop.start(LastSuperBowl.fudge.LOOP_MODE.TIME_GAME, 10);
+        //Draft
+        LastSuperBowl.team = LastSuperBowl.player.randomTeam();
         //if alive == false Game restart
         function update(_event) {
             if (LastSuperBowl.player.alive == true) {
@@ -85,13 +90,17 @@ var LastSuperBowl;
                 LastSuperBowl.player.act(LastSuperBowl.ACTION.JUMP);
                 return;
             }
-            if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.E]) {
-                LastSuperBowl.player.act(LastSuperBowl.ACTION.SHOOT, LastSuperBowl.DIRECTION.RIGHT, LastSuperBowl.player.item);
-                return;
+            if (LastSuperBowl.player.item != "None") {
+                if (keysPressed[LastSuperBowl.fudge.KEYBOARD_CODE.E]) {
+                    LastSuperBowl.player.act(LastSuperBowl.ACTION.SHOOT, LastSuperBowl.DIRECTION.RIGHT, LastSuperBowl.player.item);
+                    return;
+                }
             }
             LastSuperBowl.player.act(LastSuperBowl.ACTION.IDLE);
         }
     }
+    // function removeFiredItem(): void{
+    // }
     function countScore() {
         if (LastSuperBowl.player.mtxWorld.translation.x > LastSuperBowl.score) {
             LastSuperBowl.score = Math.round(LastSuperBowl.player.cmpTransform.local.translation.x);

@@ -29,7 +29,7 @@ var LastSuperBowl;
             rect.size = size;
             return rect;
         }
-        checkCollision() {
+        checkCollision(_shootable) {
             for (let floor of LastSuperBowl.floorHigh.getChildren()) {
                 for (let child of floor.getChildren()) {
                     if (child.name == "Item") { //collision Item
@@ -38,11 +38,11 @@ var LastSuperBowl;
                         if (this.hitDetected(hitbox)) {
                             if (LastSuperBowl.player.item != child.type) {
                                 LastSuperBowl.player.item = child.type;
-                                // child.cmpTransform.local.translateY(4);
+                                child.cmpTransform.local.translateY(4);
                             }
                             if (LastSuperBowl.player.item == LastSuperBowl.ITEM.NONE) {
                                 LastSuperBowl.player.item = child.type;
-                                // child.cmpTransform.local.translateY(4);
+                                child.cmpTransform.local.translateY(4);
                             }
                         }
                     }
@@ -65,6 +65,7 @@ var LastSuperBowl;
                     }
                 }
             }
+            return false;
         }
         hitDetected(hitbox) {
             let hit = false;

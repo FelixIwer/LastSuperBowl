@@ -7,8 +7,16 @@ namespace LastSuperBowl {
       JUMP = "Jump",
       SHOOT = "Shoot"
     }
+
     export enum DIRECTION {
       LEFT, RIGHT
+    }
+
+    export enum TEAM {
+      NONE = "None",
+      BENGALS = "Bengals",
+      REDSKINS = "Redskins",
+      LIONS = "Lions"
     }
   
     export class Player extends fudge.Node {
@@ -20,6 +28,8 @@ namespace LastSuperBowl {
       public hitbox: Hitbox;
       public item: ITEM = ITEM.NONE;
       public alive: boolean = true;
+      public team: TEAM = TEAM.NONE;
+      public direction: DIRECTION;
   
       constructor(_name: string = "Player") {
         super(_name);
@@ -81,6 +91,7 @@ namespace LastSuperBowl {
       }
   
       public act(_action: ACTION, _direction?: DIRECTION, _item?: ITEM): void {
+        this.direction = _direction;
         switch (_action) {
           case ACTION.IDLE:
             this.speed.x = 0;
@@ -99,16 +110,35 @@ namespace LastSuperBowl {
             }
             break;
           case ACTION.SHOOT:
-            console.log("SHOOOOOOOT");
-            // let item: Item = new Item(_item);
-            // game.appendChild(item);
-            // item.cmpTransform.local.translation = player.cmpTransform.local.translation;
-            // item.cmpTransform.local.translateY(0.22);
+            // console.log("SHOOOOOOOT");
+            let item: Item = new Item(_item, true);
+            itemContainer.appendChild(item);
+            item.cmpTransform.local.translation = player.cmpTransform.local.translation;
+            if (player.direction == DIRECTION.RIGHT) {
+              item.cmpTransform.local.translateX(1);
+            } else {
+              item.cmpTransform.local.translateX(-1);
+            }
+            item.cmpTransform.local.translateY(0.5);
             player.item = ITEM.NONE;
-            console.log(player.item);
             break;
         }
         this.show(_action);
+      }
+
+      public randomTeam(): TEAM {
+        let random: number = Math.random();
+        let newTeam: TEAM = TEAM.NONE;
+
+        if (random > 0.67) {
+          newTeam = TEAM.BENGALS;
+        } else if (random < 0.67 && random > 0.34) {
+          newTeam = TEAM.REDSKINS;
+        } else if (random < 0.34) {
+          newTeam = TEAM.LIONS;
+        }
+
+        return newTeam;
       }
   
       private update = (_event: fudge.Eventƒ): void => {

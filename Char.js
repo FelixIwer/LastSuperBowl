@@ -14,12 +14,20 @@ var LastSuperBowl;
         DIRECTION[DIRECTION["LEFT"] = 0] = "LEFT";
         DIRECTION[DIRECTION["RIGHT"] = 1] = "RIGHT";
     })(DIRECTION = LastSuperBowl.DIRECTION || (LastSuperBowl.DIRECTION = {}));
+    let TEAM;
+    (function (TEAM) {
+        TEAM["NONE"] = "None";
+        TEAM["BENGALS"] = "Bengals";
+        TEAM["REDSKINS"] = "Redskins";
+        TEAM["LIONS"] = "Lions";
+    })(TEAM = LastSuperBowl.TEAM || (LastSuperBowl.TEAM = {}));
     class Player extends fudge.Node {
         constructor(_name = "Player") {
             super(_name);
             this.speed = fudge.Vector3.ZERO();
             this.item = LastSuperBowl.ITEM.NONE;
             this.alive = true;
+            this.team = TEAM.NONE;
             this.update = (_event) => {
                 this.broadcastEvent(new CustomEvent("showNext"));
                 let timeFrame = fudge.Loop.timeFrameGame / 1000;
@@ -70,6 +78,7 @@ var LastSuperBowl;
                 child.activate(child.name == _action);
         }
         act(_action, _direction, _item) {
+            this.direction = _direction;
             switch (_action) {
                 case ACTION.IDLE:
                     this.speed.x = 0;
@@ -89,16 +98,35 @@ var LastSuperBowl;
                     }
                     break;
                 case ACTION.SHOOT:
-                    console.log("SHOOOOOOOT");
-                    // let item: Item = new Item(_item);
-                    // game.appendChild(item);
-                    // item.cmpTransform.local.translation = player.cmpTransform.local.translation;
-                    // item.cmpTransform.local.translateY(0.22);
+                    // console.log("SHOOOOOOOT");
+                    let item = new LastSuperBowl.Item(_item, true);
+                    LastSuperBowl.itemContainer.appendChild(item);
+                    item.cmpTransform.local.translation = LastSuperBowl.player.cmpTransform.local.translation;
+                    if (LastSuperBowl.player.direction == DIRECTION.RIGHT) {
+                        item.cmpTransform.local.translateX(1);
+                    }
+                    else {
+                        item.cmpTransform.local.translateX(-1);
+                    }
+                    item.cmpTransform.local.translateY(0.5);
                     LastSuperBowl.player.item = LastSuperBowl.ITEM.NONE;
-                    console.log(LastSuperBowl.player.item);
                     break;
             }
             this.show(_action);
+        }
+        randomTeam() {
+            let random = Math.random();
+            let newTeam = TEAM.NONE;
+            if (random > 0.67) {
+                newTeam = TEAM.BENGALS;
+            }
+            else if (random < 0.67 && random > 0.34) {
+                newTeam = TEAM.REDSKINS;
+            }
+            else if (random < 0.34) {
+                newTeam = TEAM.LIONS;
+            }
+            return newTeam;
         }
         checkCollision(_checkCollision) {
             for (let floor of _checkCollision.getChildren()) {

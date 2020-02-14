@@ -15,6 +15,8 @@ namespace LastSuperBowl {
   export let floorHigh: FloorHigh;
   export let enemy: Enemy;
   export let score: number = 0;
+  export let team: TEAM = TEAM.NONE;
+  export let itemContainer: fudge.Node;
 
 
   function MainGame(): void {
@@ -33,12 +35,14 @@ namespace LastSuperBowl {
     // game.addComponent(new fudge.ComponentTransform());
     // game.cmpTransform.local.translateY(-1);
 
+    itemContainer = new fudge.Node("ItemContainer");
     player = new Player("Player");
     level = new Level();
     floorHigh = new FloorHigh();
     enemy = new Enemy("Enemy");
 
     game.appendChild(player);
+    game.appendChild(itemContainer);
     game.appendChild(enemy);
     game.appendChild(level);
     game.appendChild(floorHigh);
@@ -69,6 +73,9 @@ namespace LastSuperBowl {
     fudge.Loop.addEventListener(fudge.EVENT.LOOP_FRAME, update);
     fudge.Loop.start(fudge.LOOP_MODE.TIME_GAME, 10);
 
+
+    //Draft
+    team = player.randomTeam();
 
     //if alive == false Game restart
 
@@ -115,14 +122,20 @@ namespace LastSuperBowl {
         player.act(ACTION.JUMP);
         return;  
       }
-      if (keysPressed[fudge.KEYBOARD_CODE.E]) {
-        player.act(ACTION.SHOOT, DIRECTION.RIGHT, player.item);
-        return;
+      if (player.item != "None") {
+        if (keysPressed[fudge.KEYBOARD_CODE.E]) {
+          player.act(ACTION.SHOOT, DIRECTION.RIGHT, player.item);
+          return;
+        }
       }
 
       player.act(ACTION.IDLE);
     }
   }
+
+  // function removeFiredItem(): void{
+
+  // }
 
   function countScore(): void {
     if (player.mtxWorld.translation.x > score) {
@@ -133,7 +146,7 @@ namespace LastSuperBowl {
     console.log(score);
   }
 
-  function endScreen(): void{
+  function endScreen(): void {
     let over: HTMLElement = document.querySelector("div#endScreen");
     over.style.visibility = "visible";
     let sString: string = score.toString();

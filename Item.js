@@ -11,8 +11,19 @@ var LastSuperBowl;
         ITEM["SBTROPHY"] = "SBTrophy";
     })(ITEM = LastSuperBowl.ITEM || (LastSuperBowl.ITEM = {}));
     class Item extends fudge.Node {
-        constructor(type) {
+        constructor(type, _shootable) {
             super("Item");
+            this.update = (_event) => {
+                if (!this.hit) {
+                    let direction = (this.direction == LastSuperBowl.DIRECTION.RIGHT ? 1 : -1);
+                    this.cmpTransform.local.translateX(0.2 * direction);
+                    if (this.hitbox.checkCollision(true)) {
+                        this.hit = true;
+                        console.log("HITTTT");
+                    }
+                    this.checkCollision(LastSuperBowl.enemy);
+                }
+            };
             this.type = type;
             this.addComponent(new fudge.ComponentTransform());
             this.cmpTransform.local.translateY(0.5);
@@ -24,6 +35,10 @@ var LastSuperBowl;
             this.show();
             this.hitbox = this.creatHitbox(type);
             this.appendChild(this.hitbox);
+            if (_shootable == true) {
+                fudge.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
+                this.direction = LastSuperBowl.player.direction;
+            }
         }
         static generateSprites(_txtImage) {
             Item.sprites = [];
@@ -58,6 +73,15 @@ var LastSuperBowl;
         show() {
             for (let child of this.getChildren())
                 child.activate(child.name == this.type);
+        }
+        checkCollision(_checkCollision) {
+            for (let floor of _checkCollision.getChildren()) {
+                let rect = floor.getRectWorld();
+                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                if (hit) {
+                    this.hit = true;
+                }
+            }
         }
     }
     LastSuperBowl.Item = Item;
