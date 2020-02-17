@@ -80,10 +80,12 @@ var LastSuperBowl;
         }
         checkCollision(_checkCollision) {
             for (let floor of _checkCollision.getChildren()) {
-                let rect = floor.getRectWorld();
-                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
-                if (hit) {
-                    this.hit = true;
+                if (floor.name == "Floor") {
+                    let rect = floor.getRectWorld();
+                    let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                    if (hit) {
+                        this.hit = true;
+                    }
                 }
             }
         }

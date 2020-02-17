@@ -12,7 +12,7 @@ namespace LastSuperBowl {
     }
     
     private createLevel(_level: Floor): fudge.Node {
-      let floorDistance: number = -5;
+      let floorDistance: number = -6;
       
       for (let index: number = 0; index < 100; index++) {
         _level = new Floor(floorDistance);

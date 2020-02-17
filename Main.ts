@@ -31,6 +31,7 @@ namespace LastSuperBowl {
     Item.generateSprites(txtPlayer);
     Enemy.generateSprites(txtPlayer);
     Gravestone.generateSprites(txtPlayer);
+    Background.generateSprites(txtPlayer);
 
     fudge.RenderManager.initialize(true, false);
     game = new fudge.Node("Game");
@@ -48,6 +49,8 @@ namespace LastSuperBowl {
     game.appendChild(enemy);
     game.appendChild(level);
     game.appendChild(floorHigh);
+
+    game.appendChild(new BackgroundHandler());
 
     //Hitbox für Char anzeigen
     //game.appendChild(player.createHitbox());

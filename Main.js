@@ -17,6 +17,7 @@ var LastSuperBowl;
         LastSuperBowl.Item.generateSprites(txtPlayer);
         LastSuperBowl.Enemy.generateSprites(txtPlayer);
         LastSuperBowl.Gravestone.generateSprites(txtPlayer);
+        LastSuperBowl.Background.generateSprites(txtPlayer);
         LastSuperBowl.fudge.RenderManager.initialize(true, false);
         LastSuperBowl.game = new LastSuperBowl.fudge.Node("Game");
         // game.addComponent(new fudge.ComponentTransform());
@@ -31,6 +32,7 @@ var LastSuperBowl;
         LastSuperBowl.game.appendChild(LastSuperBowl.enemy);
         LastSuperBowl.game.appendChild(LastSuperBowl.level);
         LastSuperBowl.game.appendChild(LastSuperBowl.floorHigh);
+        LastSuperBowl.game.appendChild(new LastSuperBowl.BackgroundHandler());
         //Hitbox für Char anzeigen
         //game.appendChild(player.createHitbox());
         //game.appendChild(enemy.createHitbox());

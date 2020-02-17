@@ -1,10 +1,6 @@
 namespace LastSuperBowl {
 
     import fudge = FudgeCore;
-    
-    export enum STATUS {
-        DEAD = "DEAD"
-    }
 
     export class Gravestone extends fudge.Node {
 
@@ -27,14 +23,14 @@ namespace LastSuperBowl {
 
     public static generateSprites(_txtImage: fudge.TextureImage): void {
         Gravestone.sprites = [];
-        let sprite: Sprite = new Sprite(STATUS.DEAD);
+        let sprite: Sprite = new Sprite("Gravestonesprite");
         sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(287, 9, 13, 19), 1, fudge.Vector2.ZERO(), 20, fudge.ORIGIN2D.BOTTOMCENTER);
         Gravestone.sprites.push(sprite);
     }
 
     public show(): void {
         for (let child of this.getChildren())
-          child.activate(child.name == STATUS.DEAD);
+          child.activate(child.name == "Gravestonesprite");
       }
 
     }

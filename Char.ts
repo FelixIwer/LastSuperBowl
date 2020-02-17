@@ -168,6 +168,7 @@ namespace LastSuperBowl {
 
       private checkCollision(_checkCollision: fudge.Node): void {
         for (let floor of _checkCollision.getChildren()) {
+          if (floor.name == "Floor") {
           let rect: fudge.Rectangle = (<Floor>floor).getRectWorld();
           let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
           if (hit) {
@@ -178,5 +179,6 @@ namespace LastSuperBowl {
           }
         }
       }
+    }
   }
 }

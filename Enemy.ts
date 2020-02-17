@@ -102,13 +102,15 @@ namespace LastSuperBowl {
 
         private checkCollision(_checkCollision: fudge.Node): void {
             for (let floor of _checkCollision.getChildren()) {
-                let rect: fudge.Rectangle = (<Floor>floor).getRectWorld();
-                let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
-                if (hit) {
-                    let translation: fudge.Vector3 = this.cmpTransform.local.translation;
-                    translation.y = rect.y;
-                    this.cmpTransform.local.translation = translation;
-                    this.speed.y = 0;
+                if (floor.name == "Floor") {
+                    let rect: fudge.Rectangle = (<Floor>floor).getRectWorld();
+                    let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                    if (hit) {
+                        let translation: fudge.Vector3 = this.cmpTransform.local.translation;
+                        translation.y = rect.y;
+                        this.cmpTransform.local.translation = translation;
+                        this.speed.y = 0;
+                    }
                 }
             }
         }

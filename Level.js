@@ -9,7 +9,7 @@ var LastSuperBowl;
             this.createLevel(level);
         }
         createLevel(_level) {
-            let floorDistance = -5;
+            let floorDistance = -6;
             for (let index = 0; index < 100; index++) {
                 _level = new LastSuperBowl.Floor(floorDistance);
                 floorDistance += 0.45;

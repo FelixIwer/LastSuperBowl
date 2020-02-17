@@ -2,10 +2,6 @@
 var LastSuperBowl;
 (function (LastSuperBowl) {
     var fudge = FudgeCore;
-    let STATUS;
-    (function (STATUS) {
-        STATUS["DEAD"] = "DEAD";
-    })(STATUS = LastSuperBowl.STATUS || (LastSuperBowl.STATUS = {}));
     class Gravestone extends fudge.Node {
         constructor(_position) {
             super("Gravestone");
@@ -21,13 +17,13 @@ var LastSuperBowl;
         }
         static generateSprites(_txtImage) {
             Gravestone.sprites = [];
-            let sprite = new LastSuperBowl.Sprite(STATUS.DEAD);
+            let sprite = new LastSuperBowl.Sprite("Gravestonesprite");
             sprite.generateByGrid(_txtImage, fudge.Rectangle.GET(287, 9, 13, 19), 1, fudge.Vector2.ZERO(), 20, fudge.ORIGIN2D.BOTTOMCENTER);
             Gravestone.sprites.push(sprite);
         }
         show() {
             for (let child of this.getChildren())
-                child.activate(child.name == STATUS.DEAD);
+                child.activate(child.name == "Gravestonesprite");
         }
     }
     LastSuperBowl.Gravestone = Gravestone;
